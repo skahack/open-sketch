@@ -1,0 +1,6 @@
+.DS_Store
+documents
+bundle.js
+node_modules
+tmp
+.local.vimrc
