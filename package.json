@@ -1,5 +1,5 @@
 {
-  "name": "sketch-to-open",
+  "name": "open-sketch",
   "version": "0.0.1",
   "description": "",
   "main": "main.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SKAhack/sketch-to-open.git"
+    "url": "https://github.com/SKAhack/open-sketch.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SKAhack/sketch-to-open/issues"
+    "url": "https://github.com/SKAhack/open-sketch/issues"
   },
-  "homepage": "https://github.com/SKAhack/sketch-to-open#readme",
+  "homepage": "https://github.com/SKAhack/open-sketch#readme",
   "devDependencies": {
     "browserify": "^13.1.0"
   }
