@@ -1,0 +1,14 @@
+{
+  "objectId": "1858A50F-CCFF-42CD-AE14-0B3BDD93576C",
+  "type": "rectangle",
+  "className": "MSShapeGroup",
+  "name": "LEFT Chat Background 1",
+  "index": 4,
+  "styles": [
+    "top: 0.000px",
+    "left: 0.000px",
+    "width: 500.000px",
+    "height: 108.000px",
+    "background: #413F55"
+  ]
+}

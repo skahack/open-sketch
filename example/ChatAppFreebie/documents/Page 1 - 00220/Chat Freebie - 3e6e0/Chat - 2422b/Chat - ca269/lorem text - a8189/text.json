@@ -1,0 +1,21 @@
+{
+  "objectId": "DB82EDFC-6B01-4023-8343-11EF236799D8",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "lorem text",
+  "index": 3,
+  "styles": [
+    "top: 162.000px",
+    "left: 232.000px",
+    "width: 335.000px",
+    "height: 88.000px",
+    "font-family: Helvetica;",
+    "font-size: 13px;",
+    "color: #262626;",
+    "line-height: 22px;",
+    "text-behaviour: fixed",
+    "text-align: left",
+    "letter-spacing: 0.300px",
+    "content: 'I've always held to the belief that the practice of creating compelling graphic design occurs not by employing the principals of a democracy, but rather, that of a monarchy.'"
+  ]
+}

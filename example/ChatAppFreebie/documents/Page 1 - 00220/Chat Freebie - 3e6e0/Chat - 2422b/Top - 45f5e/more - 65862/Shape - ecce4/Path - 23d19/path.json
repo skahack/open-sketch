@@ -1,0 +1,14 @@
+{
+  "objectId": "2C1B9089-5244-4038-8732-A31B7F624719",
+  "type": "path",
+  "className": "MSShapePathLayer",
+  "name": "Path",
+  "index": 2,
+  "styles": [
+    "top: 9.000px",
+    "left: 0.000px",
+    "width: 6.000px",
+    "height: 6.000px"
+  ],
+  "path": "d=\"M3,9 C1.35,9 0,10.35 0,12 C0,13.65 1.35,15 3,15 C4.65,15 6,13.65 6,12 C6,10.35 4.65,9 3,9 L3,9 Z\""
+}

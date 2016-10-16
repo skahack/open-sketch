@@ -1,0 +1,19 @@
+{
+  "objectId": "DACBBD7C-2E91-4806-8675-43BAE11F6F31",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Bryan Walters",
+  "index": 2,
+  "styles": [
+    "top: 130.000px",
+    "left: 232.000px",
+    "width: 115.000px",
+    "height: 16.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 14px;",
+    "color: #C2C2C2;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "content: 'Bryan Walters'"
+  ]
+}

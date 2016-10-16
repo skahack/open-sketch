@@ -1,0 +1,20 @@
+{
+  "objectId": "427C9C96-D9E3-4660-8930-F3FD9FBB928D",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Computers are to des",
+  "index": 2,
+  "styles": [
+    "top: 23.000px",
+    "left: 0.000px",
+    "width: 197.000px",
+    "height: 15.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 13px;",
+    "color: #9A98B1;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "letter-spacing: 1.000px",
+    "content: 'Computers are to design as…'"
+  ]
+}

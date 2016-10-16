@@ -1,0 +1,13 @@
+{
+  "objectId": "458BE18F-E16C-4B6D-9B42-3D0F96501EC2",
+  "type": "rectangle",
+  "className": "MSRectangleShape",
+  "name": "Rectangle 29",
+  "index": 1,
+  "styles": [
+    "top: 10.499px",
+    "left: 2.899px",
+    "width: 14.000px",
+    "height: 14.000px"
+  ]
+}

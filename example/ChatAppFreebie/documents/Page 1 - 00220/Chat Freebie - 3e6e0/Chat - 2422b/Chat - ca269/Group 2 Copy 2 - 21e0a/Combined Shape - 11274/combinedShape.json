@@ -1,0 +1,15 @@
+{
+  "objectId": "D84F1240-012D-443A-A573-3EC2E7B33E2A",
+  "type": "combinedShape",
+  "className": "MSShapeGroup",
+  "name": "Combined Shape",
+  "index": 4,
+  "styles": [
+    "top: 0.400px",
+    "left: 67.000px",
+    "width: 505.000px",
+    "height: 101.000px",
+    "border-radius: 4px;",
+    "background: #FFFFFF"
+  ]
+}

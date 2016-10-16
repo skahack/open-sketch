@@ -1,0 +1,13 @@
+{
+  "objectId": "DDCD8AAA-C270-4E81-AEA6-ABF415F7D55D",
+  "type": "rectangle",
+  "className": "MSRectangleShape",
+  "name": "RIGHT 1. Chat Bubble",
+  "index": 2,
+  "styles": [
+    "top: 0.000px",
+    "left: 5.000px",
+    "width: 500.000px",
+    "height: 101.000px"
+  ]
+}

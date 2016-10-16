@@ -1,0 +1,13 @@
+{
+  "objectId": "4224530B-8C34-4579-BED6-434F83A29C70",
+  "type": "group",
+  "className": "MSLayerGroup",
+  "name": "Chat",
+  "index": 4,
+  "styles": [
+    "top: 104.000px",
+    "left: 24.000px",
+    "width: 655.000px",
+    "height: 500.000px"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "objectId": "3228694F-7649-458A-B54D-A5EA299B568B",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Type Something...",
+  "index": 3,
+  "styles": [
+    "top: 17.000px",
+    "left: 24.000px",
+    "width: 114.000px",
+    "height: 16.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 14px;",
+    "color: #BFBFBF;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "content: 'Type Something...'"
+  ]
+}

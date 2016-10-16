@@ -1,0 +1,19 @@
+{
+  "objectId": "3DDFE671-C6A3-408E-BAB5-D3CB9F295549",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Recent Conversations",
+  "index": 1,
+  "styles": [
+    "top: 27.000px",
+    "left: 172.000px",
+    "width: 157.000px",
+    "height: 19.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 16px;",
+    "color: #FFFFFF;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "content: 'Recent Conversations'"
+  ]
+}

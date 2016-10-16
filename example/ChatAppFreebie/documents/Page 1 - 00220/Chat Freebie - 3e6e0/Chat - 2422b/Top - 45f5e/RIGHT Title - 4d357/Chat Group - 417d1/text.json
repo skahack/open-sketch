@@ -1,0 +1,19 @@
+{
+  "objectId": "4C0BE27A-4FD0-4110-9525-FE63162797B6",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Chat Group",
+  "index": 1,
+  "styles": [
+    "top: -0.000px",
+    "left: 0.000px",
+    "width: 81.000px",
+    "height: 19.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 16px;",
+    "color: #000000;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "content: 'Chat Group'"
+  ]
+}

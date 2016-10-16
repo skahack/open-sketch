@@ -1,0 +1,13 @@
+{
+  "objectId": "FEC09AD7-4580-4A38-ADB2-A8EB9CD4CDB8",
+  "type": "group",
+  "className": "MSLayerGroup",
+  "name": "LEFT Chat 1",
+  "index": 3,
+  "styles": [
+    "top: 37.000px",
+    "left: 108.000px",
+    "width: 205.000px",
+    "height: 38.000px"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "objectId": "B7028A6B-8A41-4403-8125-48FF8AECB6A7",
+  "type": "group",
+  "className": "MSLayerGroup",
+  "name": "Conversations",
+  "index": 2,
+  "styles": [
+    "top: 40.000px",
+    "left: 40.000px",
+    "width: 500.000px",
+    "height: 720.000px"
+  ]
+}

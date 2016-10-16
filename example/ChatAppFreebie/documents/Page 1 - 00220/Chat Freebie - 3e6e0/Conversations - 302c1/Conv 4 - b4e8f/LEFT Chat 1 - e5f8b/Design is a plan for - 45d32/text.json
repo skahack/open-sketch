@@ -1,0 +1,20 @@
+{
+  "objectId": "F7432021-391B-47D2-B78A-E965CEAC38B3",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Design is a plan for",
+  "index": 2,
+  "styles": [
+    "top: 23.000px",
+    "left: 0.000px",
+    "width: 205.000px",
+    "height: 15.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 13px;",
+    "color: #9A98B1;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "letter-spacing: 1.000px",
+    "content: 'Design is a plan for arranging.'"
+  ]
+}

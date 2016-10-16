@@ -1,0 +1,19 @@
+{
+  "objectId": "BF246D87-FC67-4706-8D6B-C9B8E6A9177C",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Leon Conner",
+  "index": 1,
+  "styles": [
+    "top: 0.000px",
+    "left: 0.000px",
+    "width: 91.000px",
+    "height: 19.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 16px;",
+    "color: #FFFFFF;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "content: 'Leon Conner'"
+  ]
+}

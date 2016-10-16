@@ -1,0 +1,19 @@
+{
+  "objectId": "6F62238F-FE8A-4598-BF37-C7A90F3092FA",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "21 Jul 2016",
+  "index": 1,
+  "styles": [
+    "top: 46.000px",
+    "left: 395.000px",
+    "width: 74.000px",
+    "height: 16.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 14px;",
+    "color: #9A98B1;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "content: '21 Jul 2016'"
+  ]
+}

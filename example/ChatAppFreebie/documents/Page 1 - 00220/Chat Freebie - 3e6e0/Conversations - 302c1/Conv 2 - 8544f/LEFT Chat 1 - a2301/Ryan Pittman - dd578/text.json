@@ -1,0 +1,19 @@
+{
+  "objectId": "87C630AC-C8AB-43AF-B53D-43CFB9D6434E",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Ryan Pittman",
+  "index": 1,
+  "styles": [
+    "top: 0.000px",
+    "left: 0.000px",
+    "width: 96.000px",
+    "height: 19.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 16px;",
+    "color: #FFFFFF;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "content: 'Ryan Pittman'"
+  ]
+}

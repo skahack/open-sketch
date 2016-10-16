@@ -1,0 +1,19 @@
+{
+  "objectId": "E153104D-33AF-4779-B180-5A2BE23261FA",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Adam Floyd",
+  "index": 1,
+  "styles": [
+    "top: 0.000px",
+    "left: 0.000px",
+    "width: 86.000px",
+    "height: 19.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 16px;",
+    "color: #FFFFFF;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "content: 'Adam Floyd'"
+  ]
+}

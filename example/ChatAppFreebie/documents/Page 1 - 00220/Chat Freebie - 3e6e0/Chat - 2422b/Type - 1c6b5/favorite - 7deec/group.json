@@ -1,0 +1,13 @@
+{
+  "objectId": "0F314A3C-42D4-4E3E-8CB5-3AF4085B0C22",
+  "type": "group",
+  "className": "MSLayerGroup",
+  "name": "favorite",
+  "index": 1,
+  "styles": [
+    "top: 18.000px",
+    "left: 620.000px",
+    "width: 18.000px",
+    "height: 16.000px"
+  ]
+}

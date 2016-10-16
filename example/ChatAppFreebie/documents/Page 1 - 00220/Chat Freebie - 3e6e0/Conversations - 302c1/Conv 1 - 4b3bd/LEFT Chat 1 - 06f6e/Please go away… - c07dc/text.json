@@ -1,0 +1,20 @@
+{
+  "objectId": "0DE75BEB-D4E6-431B-BD62-9248DDDA4F09",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Please go away…",
+  "index": 2,
+  "styles": [
+    "top: 23.000px",
+    "left: 0.000px",
+    "width: 114.000px",
+    "height: 15.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 13px;",
+    "color: #9A98B1;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "letter-spacing: 1.000px",
+    "content: 'Please go away…'"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "objectId": "3BE7502D-B24E-4CCA-A0A6-C7C82E03DB39",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Design is the consci",
+  "index": 2,
+  "styles": [
+    "top: 23.000px",
+    "left: 0.000px",
+    "width: 215.000px",
+    "height: 15.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 13px;",
+    "color: #9A98B1;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "letter-spacing: 1.000px",
+    "content: 'Design is the conscious effort…'"
+  ]
+}

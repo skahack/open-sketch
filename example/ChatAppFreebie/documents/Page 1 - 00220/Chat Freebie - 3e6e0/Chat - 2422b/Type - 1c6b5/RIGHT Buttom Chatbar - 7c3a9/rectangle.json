@@ -1,0 +1,15 @@
+{
+  "objectId": "D3FCD900-FDC3-4344-9F23-393311575FC1",
+  "type": "rectangle",
+  "className": "MSShapeGroup",
+  "name": "RIGHT Buttom Chatbar",
+  "index": 4,
+  "styles": [
+    "top: 0.000px",
+    "left: 0.000px",
+    "width: 654.000px",
+    "height: 50.000px",
+    "background: #FFFFFF",
+    "border: 1px solid #D7D7E4"
+  ]
+}

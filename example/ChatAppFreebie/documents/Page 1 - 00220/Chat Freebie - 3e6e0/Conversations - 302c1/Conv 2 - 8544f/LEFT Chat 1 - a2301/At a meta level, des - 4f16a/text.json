@@ -1,0 +1,20 @@
+{
+  "objectId": "A8FFD225-8963-4E1E-B49C-F11189776BB7",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "At a meta level, des",
+  "index": 2,
+  "styles": [
+    "top: 23.000px",
+    "left: 0.000px",
+    "width: 231.000px",
+    "height: 15.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 13px;",
+    "color: #9A98B1;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "letter-spacing: 1.000px",
+    "content: 'At a meta level, design connects…'"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "objectId": "ECFACC0A-2F29-4676-9528-4BD0C411C9F5",
+  "type": "group",
+  "className": "MSLayerGroup",
+  "name": "BG",
+  "index": 3,
+  "styles": [
+    "top: 0.000px",
+    "left: 0.000px",
+    "width: 1280.000px",
+    "height: 800.000px"
+  ]
+}

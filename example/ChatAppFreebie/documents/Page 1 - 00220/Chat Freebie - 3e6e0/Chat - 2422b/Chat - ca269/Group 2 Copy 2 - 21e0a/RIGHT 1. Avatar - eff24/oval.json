@@ -1,0 +1,15 @@
+{
+  "objectId": "D58FC8F6-99F6-4E9B-A864-F43C52DE7BAC",
+  "type": "oval",
+  "className": "MSShapeGroup",
+  "name": "RIGHT 1. Avatar",
+  "index": 5,
+  "styles": [
+    "top: 0.400px",
+    "left: 0.400px",
+    "width: 43.200px",
+    "height: 43.200px",
+    "background-image: url(0953348.png)",
+    "border: 2px solid #FDFDFE"
+  ]
+}

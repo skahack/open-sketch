@@ -1,0 +1,19 @@
+{
+  "objectId": "022AFC91-65D4-47C4-BC57-1A8BF0722F57",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Albert Larson",
+  "index": 2,
+  "styles": [
+    "top: 12.000px",
+    "left: 90.600px",
+    "width: 115.000px",
+    "height: 16.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 14px;",
+    "color: #C2C2C2;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "content: 'Albert Larson'"
+  ]
+}

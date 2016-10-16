@@ -1,0 +1,19 @@
+{
+  "objectId": "3B4247C2-BDE2-4E7D-9E93-7F7F25228116",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Daniel Santos",
+  "index": 2,
+  "styles": [
+    "top: 12.000px",
+    "left: 90.600px",
+    "width: 115.000px",
+    "height: 16.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 14px;",
+    "color: #C2C2C2;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "content: 'Daniel Santos'"
+  ]
+}

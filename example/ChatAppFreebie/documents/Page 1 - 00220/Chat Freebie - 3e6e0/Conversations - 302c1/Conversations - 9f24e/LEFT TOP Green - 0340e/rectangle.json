@@ -1,0 +1,14 @@
+{
+  "objectId": "0F89CC5F-5AD3-43D2-823A-20024F279A13",
+  "type": "rectangle",
+  "className": "MSShapeGroup",
+  "name": "LEFT TOP Green",
+  "index": 2,
+  "styles": [
+    "top: 0.000px",
+    "left: 0.000px",
+    "width: 500.000px",
+    "height: 72.000px",
+    "background: #3D3B50"
+  ]
+}

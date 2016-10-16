@@ -1,0 +1,20 @@
+{
+  "objectId": "0D00ED61-CA82-4B40-AF49-138004F9E4ED",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "The only important t",
+  "index": 2,
+  "styles": [
+    "top: 23.000px",
+    "left: 0.000px",
+    "width: 214.000px",
+    "height: 15.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 13px;",
+    "color: #9A98B1;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "letter-spacing: 1.000px",
+    "content: 'The only important thing about.'"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "objectId": "00243431-8999-4989-A08D-D54B4E8F5E64",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "RIGHT 1. Seen Text",
+  "index": 1,
+  "styles": [
+    "top: 132.000px",
+    "left: 505.000px",
+    "width: 62.000px",
+    "height: 13.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 11px;",
+    "color: #C4C4C4;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "content: '23:14 Today'"
+  ]
+}

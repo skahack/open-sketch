@@ -1,0 +1,19 @@
+{
+  "objectId": "4E209581-CE63-4334-BD1D-F1601C82C959",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Larry Park",
+  "index": 1,
+  "styles": [
+    "top: 0.000px",
+    "left: 0.000px",
+    "width: 74.000px",
+    "height: 19.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 16px;",
+    "color: #FFFFFF;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "content: 'Larry Park'"
+  ]
+}

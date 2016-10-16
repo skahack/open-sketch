@@ -1,0 +1,19 @@
+{
+  "objectId": "38891888-1BDA-4C25-BBB3-D659A8D16700",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "Jeremy Long",
+  "index": 1,
+  "styles": [
+    "top: 0.000px",
+    "left: 0.000px",
+    "width: 94.000px",
+    "height: 19.000px",
+    "font-family: .AppleSystemUIFont;",
+    "font-size: 16px;",
+    "color: #FFFFFF;",
+    "text-behaviour: auto",
+    "text-align: left",
+    "content: 'Jeremy Long'"
+  ]
+}

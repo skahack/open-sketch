@@ -1,0 +1,21 @@
+{
+  "objectId": "3856E061-D634-42E8-817A-95461A1EEA96",
+  "type": "text",
+  "className": "MSTextLayer",
+  "name": "lorem text",
+  "index": 3,
+  "styles": [
+    "top: 45.700px",
+    "left: 90.600px",
+    "width: 469.400px",
+    "height: 44.000px",
+    "font-family: Helvetica;",
+    "font-size: 13px;",
+    "color: #262626;",
+    "line-height: 22px;",
+    "text-behaviour: fixed",
+    "text-align: left",
+    "letter-spacing: 0.300px",
+    "content: 'Good design keeps the user happy, the manufacturer in the black and the aesthete unoffended.'"
+  ]
+}
