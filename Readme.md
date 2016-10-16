@@ -3,6 +3,7 @@
 Open Sketch is sketch to json exporter and json to sketch importer.
 
 ![Intro](doc/images/intro.gif)
+[Chat App Freebie https://dribbble.com/shots/2719193-Chat-App-Freebie](https://dribbble.com/shots/2719193-Chat-App-Freebie)
 
 :baby_chick: experimental project
 
