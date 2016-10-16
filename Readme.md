@@ -13,21 +13,21 @@ Design file can not be use the features of version control system (e.g. diff, me
 
 ## Usage
 
-1. npm install.
+1, npm install.
 
 ```sh
 $ npm install
 ```
 
-2. Open your Sketch file.
+2, Open your Sketch file.
 
-3. Export and Import.
+3, Export and Import.
 
 ```sh
 $ npm start
 ```
 
-4. Done. Sketch file export to `documents` directory.
+4, Done. Sketch file export to `documents` directory.
 
 ## TODO
 
