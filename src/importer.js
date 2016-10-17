@@ -321,7 +321,7 @@ Importer.prototype.importImage = function(json, parent, current) {
   bitmap.setName(json.name);
 
   if (s.display) {
-    group.isVisible = false;
+    bitmap.isVisible = false;
   }
 
   parent.object.addLayer(bitmap);
