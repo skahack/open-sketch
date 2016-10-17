@@ -240,10 +240,9 @@ Importer.prototype.importPath = function(json, parent, current) {
 
   var isClose = false;
   var svgAttr = json.path;
-  var regex = new RegExp('([MLC0-9,.]+) Z"');
+  var regex = new RegExp(' [MLC]?([e0-9,.-]+) Z"$');
   if (regex.test(svgAttr)) {
     isClose = true;
-    svgAttr = svgAttr.replace(regex, '"');
   }
   var svg = '<svg><path ' + svgAttr + '></path></svg>';
   var path = NSBezierPath.bezierPathFromSVGString(svg);
@@ -360,7 +359,6 @@ function parentPos(path, tree) {
   var components = path.pathComponents();
   for (var i = 0; i < (components.length - 2); i++) {
     var n = components[i];
-    p[n];
     p = p[n];
   }
   if (p.jsonFileName) {
@@ -381,7 +379,6 @@ function currentPos(path, tree) {
   var components = path.pathComponents();
   for (var i = 0; i < components.length - 1; i++) {
     var n = components[i];
-    p[n];
     p = p[n];
   }
 
