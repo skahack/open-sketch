@@ -69,5 +69,14 @@ module.exports = {
   shasum: function(path) {
     var out = '' + this.system('/usr/bin/shasum', [path]);
     return out.substr(0, 40);
+  },
+
+  /**
+   * @param {MSColor} color
+   */
+  colorToString: function(color) {
+    var c = color.RGBADictionary();
+    var svgColor = SVGColor.colorWithRed_green_blue_alpha(c.r, c.g, c.b, c.a);
+    return '' + svgColor.stringValueWithAlpha(true);
   }
 };

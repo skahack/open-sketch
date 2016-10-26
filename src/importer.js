@@ -64,6 +64,10 @@ Importer.prototype.importArtboard = function(json, parent, current) {
   artboard.setName(json.name);
   var s = parseStyle(json.styles);
   artboard.setRect(CGRectMake(s.left, s.top, s.width, s.height));
+  if (s.background) {
+    artboard.hasBackgroundColor = true;
+    artboard.backgroundColor = MSColor.colorWithSVGString(s.background.color);
+  }
   parent.object.addLayer(artboard);
   current.object = artboard;
 };
