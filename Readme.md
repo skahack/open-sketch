@@ -13,21 +13,28 @@ Design file can not be use the features of version control system (e.g. diff, me
 
 ## Usage
 
-1, npm install.
+1, clone this repository.
+
+```sh
+$ git clone https://github.com/SKAhack/open-sketch.git
+$ cd path/to/open-sketch # pointing at cloned directory
+```
+
+2, npm install.
 
 ```sh
 $ npm install
 ```
 
-2, Open your Sketch file.
+3, Open your Sketch file.
 
-3, Export and Import.
+4, Export and Import.
 
 ```sh
 $ npm start
 ```
 
-4, Done. Sketch file export to `documents` directory.
+5, Done. Sketch file export to `documents` directory.
 
 ## TODO
 
