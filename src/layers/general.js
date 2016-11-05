@@ -73,15 +73,6 @@ GeneralLayer.prototype.styles = function(){
   re.push('width: ' + bounds.size.width + 'px');
   re.push('height: ' + bounds.size.height + 'px');
 
-  if (this.className() == "MSShapeGroup") {
-    re = re.concat(this.cssAttributes());
-  }
-
-  if (this.className() == "MSShapeGroup") {
-    if (this._layer.hasClippingMask() === 1) {
-      re.push('mask: initial;');
-    }
-  }
   return re;
 };
 
@@ -110,35 +101,7 @@ GeneralLayer.prototype.cssAttributes = function(){
 };
 
 GeneralLayer.prototype.cssBackgrounds = function(){
-  var re = new Array();
-
-  if (this.className() == "MSShapeGroup") {
-    var fills = this._layer.styleGeneric().fills();
-    var s;
-    for (var i = 0; i < fills.length; i++) {
-      s = undefined;
-
-      if (fills[i].fillType() == 0) {
-        s = '' + fills[i].CSSAttributeString();
-      } else if (fills[i].fillType() == 1) {
-        s = 'background-image: linear-gradient('
-          + getGradientString(fills[i].gradient(), fills[i].CSSAttributeString()) + ')';
-      } else if (fills[i].fillType() == 4) {
-        var image = layerUtil.findImage(this.savedImages, fills[i].image());
-        s = 'background-image: url(' + _.imageName(image) + ')';
-      }
-
-      if (s) {
-        s = s.replace(/;$/, '');
-        if (!fills[i].isEnabled()) {
-          s += ' none';
-        }
-        re.push(s);
-      }
-    }
-  }
-
-  return re;
+  return new Array();
 };
 
 GeneralLayer.prototype.cssBorders = function(){
@@ -163,21 +126,7 @@ GeneralLayer.prototype.cssBorders = function(){
 };
 
 GeneralLayer.prototype.images = function(){
-  var re = new Array();
-
-  if (this.className() == "MSShapeGroup") {
-    var fills = this._layer.styleGeneric().fills();
-    for (var i = 0; i < fills.length; i++) {
-      if (fills[i].fillType() == 4) {
-        var image = fills[i].image();
-        re.push({
-          name: _.imageId(image),
-          image: image.image()
-        });
-      }
-    }
-  }
-  return re;
+  return new Array();
 };
 
 GeneralLayer.prototype.setSavedImages = function(images){
@@ -191,22 +140,5 @@ GeneralLayer.prototype.path = function(){
 
   return "" + this._layer.bezierPath().svgPathAttribute();
 };
-
-/**
- * @param {MSGradient} gradient
- */
-function getGradientString(gradient, css) {
-  var from = gradient.from();
-  var to = gradient.to();
-
-  var res = [];
-  res.push(from.x + ' ' + from.y + ' ' + to.x + ' ' + to.y);
-  _.toArray(gradient.stops()).forEach(function(s){
-    var c = s.color().RGBADictionary();
-    var color = SVGColor.colorWithRed_green_blue_alpha(c.r, c.g, c.b, c.a);
-    res.push(color.stringValueWithAlpha(true) + ' ' + s.position());
-  });
-  return res.join(', ');
-}
 
 module.exports = GeneralLayer;

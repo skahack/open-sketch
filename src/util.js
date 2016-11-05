@@ -78,5 +78,14 @@ module.exports = {
     var c = color.RGBADictionary();
     var svgColor = SVGColor.colorWithRed_green_blue_alpha(c.r, c.g, c.b, c.a);
     return '' + svgColor.stringValueWithAlpha(true);
+  },
+
+  isContains: function(array, item) {
+    for (var i = 0; i < array.length; i++) {
+      if (array[i] === item) {
+        return true;
+      }
+    }
+    return false;
   }
 };
