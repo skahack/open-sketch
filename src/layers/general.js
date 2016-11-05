@@ -1,5 +1,5 @@
 var _ = require('../util');
-var Layer = require('../layer');
+var layerUtil = require('../layerUtil');
 
 function GeneralLayer(layer) {
   this._layer = layer;
@@ -30,21 +30,20 @@ GeneralLayer.prototype.stringValue = function(){
 };
 
 GeneralLayer.prototype.layers = function(){
-  if (this._layers) {
-    return this._layers;
-  }
-
-  var layers = new Array();
+  var re = new Array();
   if (this._layer.layers) {
-    layers = Layer.getLayers(this._layer.layers());
+    re = this._layer.layers();
   }
-  this._layers = layers;
 
-  return this._layers;
+  return re;
+};
+
+GeneralLayer.prototype.setLayers = function(layers){
+  this._layers = layers;
 };
 
 GeneralLayer.prototype.type = function(){
-  return Layer.getType(this._layer);
+  return layerUtil.getType(this._layer);
 };
 
 GeneralLayer.prototype.bounds = function(){

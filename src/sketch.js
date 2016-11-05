@@ -88,8 +88,10 @@ function exportLayer(path, layer, index, parent) {
   }
   File.writeFileContents(_.joinPath(path, layer.type() + '.json'), _.getJSON(json));
 
-  if (layer.layers().length > 0) {
-    var layers = layer.layers();
+  var layers = Layer.getLayers(layer.layers());
+  layer.setLayers(layers);
+
+  if (layers.length > 0) {
     for (var i = 0; i < layers.length; i++) {
       if (layers[i].className() == 'MSSymbolMaster') { // TODO
         continue;
