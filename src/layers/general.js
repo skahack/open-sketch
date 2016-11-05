@@ -47,20 +47,6 @@ GeneralLayer.prototype.type = function(){
 };
 
 GeneralLayer.prototype.bounds = function(){
-  if (this.className() == "MSPage") {
-    var b = this._layer.contentBounds();
-    return {
-      origin: {
-        x: parseFloat(b.origin.x).toFixed(3),
-        y: parseFloat(b.origin.y).toFixed(3)
-      },
-      size: {
-        width: parseFloat(b.size.width).toFixed(3),
-        height: parseFloat(b.size.height).toFixed(3)
-      }
-    };
-  }
-
   var b = this._layer.frame();
   return {
     origin: {

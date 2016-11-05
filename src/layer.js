@@ -2,6 +2,7 @@ var _ = require('./util');
 var layerUtil = require('./layerUtil');
 
 var GeneralLayer = require('./layers/general');
+var PageLayer = require('./layers/pageLayer');
 var TextLayer = require('./layers/textLayer');
 
 function Layer() { }
@@ -16,7 +17,9 @@ Layer.getLayers = function(layers){
 
 Layer.getLayer = function(layer){
   var type = layerUtil.getType(layer);
-  if (type === 'text') {
+  if (type === 'page') {
+    return new PageLayer(layer);
+  } else if (type === 'text') {
     return new TextLayer(layer);
   } else {
     return new GeneralLayer(layer);
