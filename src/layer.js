@@ -3,6 +3,7 @@ var layerUtil = require('./layerUtil');
 
 var GeneralLayer = require('./layers/general');
 var PageLayer = require('./layers/pageLayer');
+var ArtboardLayer = require('./layers/artboardLayer');
 var TextLayer = require('./layers/textLayer');
 
 function Layer() { }
@@ -19,6 +20,8 @@ Layer.getLayer = function(layer){
   var type = layerUtil.getType(layer);
   if (type === 'page') {
     return new PageLayer(layer);
+  } else if (type === 'artboard') {
+    return new ArtboardLayer(layer);
   } else if (type === 'text') {
     return new TextLayer(layer);
   } else {

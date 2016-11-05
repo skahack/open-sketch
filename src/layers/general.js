@@ -83,10 +83,6 @@ GeneralLayer.prototype.styles = function(){
       re.push('mask: initial;');
     }
   }
-
-  if (this.className() == "MSArtboardGroup") {
-    re = re.concat(this.artboardCssBackground());
-  }
   return re;
 };
 
@@ -144,17 +140,6 @@ GeneralLayer.prototype.cssBackgrounds = function(){
   } else if (this.className() == "MSBitmapLayer") {
     var image = findImage(this.savedImages, this._layer.image());
     re.push('background-image: url(' + _.imageName(image) + ')');
-  }
-
-  return re;
-};
-
-GeneralLayer.prototype.artboardCssBackground = function(){
-  var re = new Array();
-
-  if (this._layer.hasBackgroundColor()) {
-    var bgColor = this._layer.backgroundColor();
-    re.push('background: ' + _.colorToString(bgColor));
   }
 
   return re;
