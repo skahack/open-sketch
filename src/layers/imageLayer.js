@@ -1,0 +1,35 @@
+var _ = require('../util');
+var layerUtil = require('../layerUtil');
+var GeneralLayer = require('./general');
+
+function ImageLayer(layer) {
+  GeneralLayer.call(this, layer);
+}
+
+ImageLayer.prototype = Object.create(GeneralLayer.prototype);
+ImageLayer.prototype.constructor = ImageLayer;
+
+ImageLayer.prototype.styles = function(){
+  var re = GeneralLayer.prototype.styles.call(this);
+  re = re.concat(this.cssAttributes());
+  return re;
+};
+
+ImageLayer.prototype.cssBackgrounds = function(){
+  var re = new Array();
+  var image = layerUtil.findImage(this.savedImages, this._layer.image());
+  re.push('background-image: url(' + _.imageName(image) + ')');
+  return re;
+};
+
+ImageLayer.prototype.images = function(){
+  var re = new Array();
+  var image = this._layer.image();
+  re.push({
+    name: _.imageId(image),
+    image: image.image()
+  });
+  return re;
+};
+
+module.exports = ImageLayer;

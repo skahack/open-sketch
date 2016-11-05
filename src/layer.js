@@ -5,6 +5,7 @@ var GeneralLayer = require('./layers/general');
 var PageLayer = require('./layers/pageLayer');
 var ArtboardLayer = require('./layers/artboardLayer');
 var TextLayer = require('./layers/textLayer');
+var ImageLayer = require('./layers/imageLayer');
 
 function Layer() { }
 
@@ -24,6 +25,8 @@ Layer.getLayer = function(layer){
     return new ArtboardLayer(layer);
   } else if (type === 'text') {
     return new TextLayer(layer);
+  } else if (type === 'image') {
+    return new ImageLayer(layer);
   } else {
     return new GeneralLayer(layer);
   }

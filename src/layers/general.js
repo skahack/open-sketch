@@ -73,8 +73,7 @@ GeneralLayer.prototype.styles = function(){
   re.push('width: ' + bounds.size.width + 'px');
   re.push('height: ' + bounds.size.height + 'px');
 
-  if (this.className() == "MSShapeGroup" ||
-      this.className() == "MSBitmapLayer") {
+  if (this.className() == "MSShapeGroup") {
     re = re.concat(this.cssAttributes());
   }
 
@@ -125,7 +124,7 @@ GeneralLayer.prototype.cssBackgrounds = function(){
         s = 'background-image: linear-gradient('
           + getGradientString(fills[i].gradient(), fills[i].CSSAttributeString()) + ')';
       } else if (fills[i].fillType() == 4) {
-        var image = findImage(this.savedImages, fills[i].image());
+        var image = layerUtil.findImage(this.savedImages, fills[i].image());
         s = 'background-image: url(' + _.imageName(image) + ')';
       }
 
@@ -137,9 +136,6 @@ GeneralLayer.prototype.cssBackgrounds = function(){
         re.push(s);
       }
     }
-  } else if (this.className() == "MSBitmapLayer") {
-    var image = findImage(this.savedImages, this._layer.image());
-    re.push('background-image: url(' + _.imageName(image) + ')');
   }
 
   return re;
@@ -180,12 +176,6 @@ GeneralLayer.prototype.images = function(){
         });
       }
     }
-  } else if (this.className() == "MSBitmapLayer") {
-    var image = this._layer.image();
-    re.push({
-      name: _.imageId(image),
-      image: image.image()
-    });
   }
   return re;
 };
@@ -201,15 +191,6 @@ GeneralLayer.prototype.path = function(){
 
   return "" + this._layer.bezierPath().svgPathAttribute();
 };
-
-function findImage(savedImages, image) {
-  for (var i = 0; i < savedImages.length; i++) {
-    if (savedImages[i].name == _.imageId(image)) {
-      return savedImages[i];
-    }
-  }
-  return null;
-}
 
 /**
  * @param {MSGradient} gradient

@@ -38,5 +38,14 @@ module.exports = {
       return 'path';
     }
     return 'layer';
+  },
+
+  findImage: function(savedImages, image) {
+    for (var i = 0; i < savedImages.length; i++) {
+      if (savedImages[i].name == _.imageId(image)) {
+        return savedImages[i];
+      }
+    }
+    return null;
   }
 };
