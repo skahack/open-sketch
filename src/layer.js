@@ -7,6 +7,7 @@ var ArtboardLayer = require('./layers/artboardLayer');
 var TextLayer = require('./layers/textLayer');
 var ImageLayer = require('./layers/imageLayer');
 var ShapeGroupLayer = require('./layers/shapeGroupLayer');
+var PathLayer = require('./layers/pathLayer');
 
 function Layer() { }
 
@@ -30,6 +31,8 @@ Layer.getLayer = function(layer){
     return new ImageLayer(layer);
   } else if (_.isContains(['oval', 'rectangle', 'shapePath', 'combinedShape'], type)) {
     return new ShapeGroupLayer(layer);
+  } else if (type === 'path') {
+    return new PathLayer(layer);
   } else {
     return new GeneralLayer(layer);
   }

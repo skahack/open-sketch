@@ -134,11 +134,7 @@ GeneralLayer.prototype.setSavedImages = function(images){
 };
 
 GeneralLayer.prototype.path = function(){
-  if (this.className() != "MSShapePathLayer") {
-    return "";
-  }
-
-  return "" + this._layer.bezierPath().svgPathAttribute();
+  return "";
 };
 
 module.exports = GeneralLayer;
