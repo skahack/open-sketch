@@ -88,7 +88,6 @@ GeneralLayer.prototype.styles = function(){
   re.push('height: ' + bounds.size.height + 'px');
 
   if (this.className() == "MSShapeGroup" ||
-      this.className() == "MSTextLayer" ||
       this.className() == "MSBitmapLayer") {
     re = re.concat(this.cssAttributes());
   }
@@ -125,7 +124,6 @@ GeneralLayer.prototype.cssAttributes = function(){
 
   re = re.concat(this.cssBackgrounds());
   re = re.concat(this.cssBorders());
-  re = re.concat(this.cssText());
 
   return re;
 };
@@ -194,34 +192,6 @@ GeneralLayer.prototype.cssBorders = function(){
     re.push(s);
   }
 
-  return re;
-};
-
-GeneralLayer.prototype.cssText = function(){
-  var re = new Array();
-  if (this.className() == "MSTextLayer") {
-    // Text Behaviour: 0:auto 1:fixed
-    re.push("text-behaviour: " + (this._layer.textBehaviour() == 0 ? 'auto' : 'fixed'));
-
-    // Text Align
-    var textAlign;
-    if (this._layer.textAlignment() == 0) {
-      textAlign = 'left';
-    } else if (this._layer.textAlignment() == 1) {
-      textAlign = 'right';
-    } else if (this._layer.textAlignment() == 2) {
-      textAlign = 'center';
-    }
-    re.push("text-align: " + textAlign);
-
-    // Letter Spacing
-    if (this._layer.characterSpacing() && this._layer.characterSpacing() > 0) {
-      re.push("letter-spacing: " + parseFloat(this._layer.characterSpacing()).toFixed(3) + 'px');
-    }
-
-    // Content
-    re.push("content: '" + this.stringValue() + "'");
-  }
   return re;
 };
 

@@ -1,5 +1,8 @@
 var _ = require('./util');
+var layerUtil = require('./layerUtil');
+
 var GeneralLayer = require('./layers/general');
+var TextLayer = require('./layers/textLayer');
 
 function Layer() { }
 
@@ -12,7 +15,12 @@ Layer.getLayers = function(layers){
 };
 
 Layer.getLayer = function(layer){
-  return new GeneralLayer(layer);
+  var type = layerUtil.getType(layer);
+  if (type === 'text') {
+    return new TextLayer(layer);
+  } else {
+    return new GeneralLayer(layer);
+  }
 };
 
 module.exports = Layer;
