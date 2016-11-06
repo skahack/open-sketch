@@ -29,6 +29,8 @@ Importer.prototype.import = function() {
       this.importPage(json, parent, current);
     } else if (json.type == 'artboard') {
       this.importArtboard(json, parent, current);
+    } else if (json.type == "symbolMaster") {
+      this.importSymbolMaster(json, parent, current);
     } else if (json.type == "group") {
       this.importGroup(json, parent, current);
     } else if (json.type == "rectangle") {
@@ -70,6 +72,19 @@ Importer.prototype.importArtboard = function(json, parent, current) {
   }
   parent.object.addLayer(artboard);
   current.object = artboard;
+};
+
+Importer.prototype.importSymbolMaster = function(json, parent, current) {
+  var s = parseStyle(json.styles);
+  var symbol = MSSymbolMaster.alloc().initWithFrame(CGRectMake(s.left, s.top, s.width, s.height));
+  symbol.objectID = json.objectId;
+  symbol.setName(json.name);
+  if (s.background) {
+    symbol.hasBackgroundColor = true;
+    symbol.backgroundColor = MSColor.colorWithSVGString(s.background.color);
+  }
+  parent.object.addLayer(symbol);
+  current.object = symbol;
 };
 
 Importer.prototype.importGroup = function(json, parent, current) {

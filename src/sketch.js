@@ -93,9 +93,6 @@ function exportLayer(path, layer, index, parent) {
 
   if (layers.length > 0) {
     for (var i = 0; i < layers.length; i++) {
-      if (layers[i].className() == 'MSSymbolMaster') { // TODO
-        continue;
-      }
       exportLayer(path, layers[i], layers.length - i, json);
     }
   }
