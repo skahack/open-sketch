@@ -38,11 +38,10 @@ $ npm start
 
 ## TODO
 
-- Symbol
 - Rich text
 - More imporve path
 - Shadow
-- and more.
+- ...
 
 ## License
 MIT
