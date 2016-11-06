@@ -86,6 +86,9 @@ function exportLayer(path, layer, index, parent) {
   if (shapePath !== '') {
     json.path = shapePath;
   }
+  if (layer.symbolId()) {
+    json.symbolId = layer.symbolId();
+  }
   File.writeFileContents(_.joinPath(path, layer.type() + '.json'), _.getJSON(json));
 
   var layers = Layer.getLayers(layer.layers());

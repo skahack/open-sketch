@@ -8,6 +8,10 @@ function SymbolLayer(layer) {
 SymbolLayer.prototype = Object.create(GeneralLayer.prototype);
 SymbolLayer.prototype.constructor = SymbolLayer;
 
+SymbolLayer.prototype.symbolId = function(){
+  return ('' + this._layer.symbolID());
+};
+
 SymbolLayer.prototype.styles = function(){
   var re = GeneralLayer.prototype.styles.call(this);
   re = re.concat(this.background());

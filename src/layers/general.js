@@ -13,6 +13,10 @@ GeneralLayer.prototype.shortId = function(){
   return ('' + this._layer.objectID().sha1()).substr(0, 5);
 };
 
+GeneralLayer.prototype.symbolId = function(){
+  return null;
+};
+
 GeneralLayer.prototype.dirName = function(){
   return (this.name() + " - " + this.shortId()).replace(new RegExp('/'), ":");
 };

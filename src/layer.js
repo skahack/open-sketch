@@ -9,6 +9,7 @@ var ImageLayer = require('./layers/imageLayer');
 var ShapeGroupLayer = require('./layers/shapeGroupLayer');
 var PathLayer = require('./layers/pathLayer');
 var SymbolMasterLayer = require('./layers/symbolMasterLayer');
+var SymbolLayer = require('./layers/symbolLayer');
 
 function Layer() { }
 
@@ -28,6 +29,8 @@ Layer.getLayer = function(layer){
     return new ArtboardLayer(layer);
   } else if (type === 'symbolMaster') {
     return new SymbolMasterLayer(layer);
+  } else if (type === 'symbol') {
+    return new SymbolLayer(layer);
   } else if (type === 'text') {
     return new TextLayer(layer);
   } else if (type === 'image') {
