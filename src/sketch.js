@@ -86,6 +86,9 @@ function exportLayer(path, layer, index, parent) {
   if (shapePath !== '') {
     json.path = shapePath;
   }
+  if (layer.symbolId()) {
+    json.symbolId = layer.symbolId();
+  }
   File.writeFileContents(_.joinPath(path, layer.type() + '.json'), _.getJSON(json));
 
   var layers = Layer.getLayers(layer.layers());
@@ -93,9 +96,6 @@ function exportLayer(path, layer, index, parent) {
 
   if (layers.length > 0) {
     for (var i = 0; i < layers.length; i++) {
-      if (layers[i].className() == 'MSSymbolMaster') { // TODO
-        continue;
-      }
       exportLayer(path, layers[i], layers.length - i, json);
     }
   }

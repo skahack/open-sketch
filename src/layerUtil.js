@@ -36,6 +36,10 @@ module.exports = {
       return 'rectangle';
     } else if (layer.className() == "MSShapePathLayer") {
       return 'path';
+    } else if (layer.className() == "MSSymbolInstance") {
+      return 'symbol';
+    } else if (layer.className() == "MSSymbolMaster") {
+      return 'symbolMaster';
     }
     return 'layer';
   },
