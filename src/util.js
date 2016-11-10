@@ -76,8 +76,12 @@ module.exports = {
    */
   colorToString: function(color) {
     var c = color.RGBADictionary();
-    var svgColor = SVGColor.colorWithRed_green_blue_alpha(c.r, c.g, c.b, c.a);
-    return '' + svgColor.stringValueWithAlpha(true);
+    var color = MSImmutableColor.colorWithRed_green_blue_alpha(c.r, c.g, c.b, c.a);
+    return '' + color.stringValueWithAlpha(true);
+  },
+
+  stringToColor: function(str) {
+    return MSImmutableColor.colorWithSVGString(str);
   },
 
   isContains: function(array, item) {

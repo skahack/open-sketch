@@ -70,7 +70,7 @@ Importer.prototype.importArtboard = function(json, parent, current) {
   artboard.setRect(CGRectMake(s.left, s.top, s.width, s.height));
   if (s.background) {
     artboard.hasBackgroundColor = true;
-    artboard.backgroundColor = MSColor.colorWithSVGString(s.background.color);
+    artboard.backgroundColor = _.stringToColor(s.background.color);
   }
   parent.object.addLayer(artboard);
   current.object = artboard;
@@ -84,7 +84,7 @@ Importer.prototype.importSymbolMaster = function(json, parent, current) {
   symbol.symbolID = json.symbolId;
   if (s.background) {
     symbol.hasBackgroundColor = true;
-    symbol.backgroundColor = MSColor.colorWithSVGString(s.background.color);
+    symbol.backgroundColor = _.stringToColor(s.background.color);
   }
   parent.object.addLayer(symbol);
   current.object = symbol;
@@ -194,7 +194,7 @@ Importer.prototype._importShape = function(type, json, parent, current) {
       var bs = s.borders[i];
       var border = MSStyleBorder.alloc().init();
       border.thickness = bs.thickness;
-      border.color = MSColor.colorWithSVGString(bs.color);
+      border.color = _.stringToColor(bs.color);
       if (bs.none) {
         border.isEnabled = false;
       }
@@ -218,7 +218,7 @@ Importer.prototype._importShape = function(type, json, parent, current) {
 
   if (s.background) {
     var fill = MSStyleFill.alloc().init();
-    fill.color = MSColor.colorWithSVGString(s.background.color);
+    fill.color = _.stringToColor(s.background.color);
     if (s.background.none) {
       fill.isEnabled = false;
     }
@@ -230,7 +230,7 @@ Importer.prototype._importShape = function(type, json, parent, current) {
     var fill = MSStyleFill.alloc().init();
     fill.fillType = 1;
     var stops = s.linearGradient.stops.map(function(stop){
-      return MSGradientStop.alloc().initWithPosition_color(stop.length, MSColor.colorWithSVGString(stop.color));
+      return MSGradientStop.alloc().initWithPosition_color(stop.length, _.stringToColor(stop.color));
     });
     var gradient = MSGradient.alloc().initBlankGradient();
     gradient.gradientType = 0;
@@ -304,7 +304,7 @@ Importer.prototype.importText = function(json, parent, current) {
 
   text.font = NSFont.fontWithName_size(s.fontFamily, s.fontSize);
   if (s.color) {
-    text.textColor = MSColor.colorWithSVGString(s.color);
+    text.textColor = _.stringToColor(s.color);
   }
 
   if (s.lineHeight) {

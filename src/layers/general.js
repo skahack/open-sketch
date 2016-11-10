@@ -117,9 +117,8 @@ GeneralLayer.prototype.cssBorders = function(){
 
   var borders = this._layer.style().borders();
   for (var i = 0; i < borders.length; i++) {
-    var c = borders[i].color().RGBADictionary();
-    var color = SVGColor.colorWithRed_green_blue_alpha(c.r, c.g, c.b, c.a);
-    var s = "border: " + borders[i].thickness() + 'px solid ' + color.stringValueWithAlpha(true);
+    var color = borders[i].color();
+    var s = "border: " + borders[i].thickness() + 'px solid ' + _.colorToString(color);
     if (!borders[i].isEnabled()) {
       s += ' none'
     }

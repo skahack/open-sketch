@@ -89,9 +89,8 @@ function getGradientString(gradient, css) {
   var res = [];
   res.push(from.x + ' ' + from.y + ' ' + to.x + ' ' + to.y);
   _.toArray(gradient.stops()).forEach(function(s){
-    var c = s.color().RGBADictionary();
-    var color = SVGColor.colorWithRed_green_blue_alpha(c.r, c.g, c.b, c.a);
-    res.push(color.stringValueWithAlpha(true) + ' ' + s.position());
+    var color = s.color();
+    res.push(_.colorToString(color) + ' ' + s.position());
   });
   return res.join(', ');
 }
