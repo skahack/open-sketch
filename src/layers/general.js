@@ -77,6 +77,17 @@ GeneralLayer.prototype.styles = function(){
   re.push('width: ' + bounds.size.width + 'px');
   re.push('height: ' + bounds.size.height + 'px');
 
+  re = re.concat(this.rotation());
+
+  return re;
+};
+
+GeneralLayer.prototype.rotation = function(){
+  var re = new Array();
+  var rotation = this._layer.rotation();
+  if (rotation > 0) {
+    re.push('transform: rotate(' + rotation + 'deg)');
+  }
   return re;
 };
 
@@ -91,7 +102,6 @@ GeneralLayer.prototype.cssAttributes = function(){
         (new RegExp('^border:')).test(s) ||
         (new RegExp('^letter-spacing:')).test(s) ||
         (new RegExp('^box-shadow:')).test(s) || // TODO
-        (new RegExp('^transform:')).test(s) || // TODO
         (new RegExp("linear-gradient")).test(s)) {
       continue;
     }

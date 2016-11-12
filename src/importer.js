@@ -116,6 +116,10 @@ Importer.prototype.importGroup = function(json, parent, current) {
     group.isVisible = false;
   }
 
+  if (s.rotation) {
+    group.rotation = s.rotation;
+  }
+
   parent.object.addLayer(group);
   current.object = group;
 };
@@ -135,6 +139,10 @@ Importer.prototype.importOval = function(json, parent, current) {
   layer.objectID = json.objectId;
   layer.frame = MSRect.rectWithRect(CGRectMake(s.left, s.top, s.width, s.height));
 
+  if (s.rotation) {
+    layer.rotation = s.rotation;
+  }
+
   layer.setName(json.name);
   parent.object.addLayer(layer);
 };
@@ -153,6 +161,10 @@ Importer.prototype.importRectangle = function(json, parent, current) {
   var layer = MSRectangleShape.alloc().init();
   layer.objectID = json.objectId;
   layer.frame = MSRect.rectWithRect(CGRectMake(s.left, s.top, s.width, s.height));
+
+  if (s.rotation) {
+    layer.rotation = s.rotation;
+  }
 
   layer.setName(json.name);
   parent.object.addLayer(layer);
@@ -241,6 +253,10 @@ Importer.prototype._importShape = function(type, json, parent, current) {
     group.style().addStyleFill(fill);
   }
 
+  if (s.rotation) {
+    group.rotation = s.rotation;
+  }
+
   if (s.opacity) {
     group.style().contextSettings().setOpacity(parseFloat(s.opacity));
   }
@@ -283,6 +299,10 @@ Importer.prototype.importPath = function(json, parent, current) {
 
   if (isClose) {
     layer.closeLastPath(true);
+  }
+
+  if (s.rotation) {
+    layer.rotation = s.rotation;
   }
 
   layer.setName(json.name);
@@ -329,6 +349,10 @@ Importer.prototype.importText = function(json, parent, current) {
     text.textBehaviour = s.textBehaviour == 'auto' ? 0 : 1;
   }
 
+  if (s.rotation) {
+    text.rotation = s.rotation;
+  }
+
   if (s.display) {
     text.isVisible = false;
   }
@@ -351,6 +375,10 @@ Importer.prototype.importImage = function(json, parent, current) {
   var bitmap = MSBitmapLayer.alloc().initWithFrame_image(rect, imageData);
   bitmap.objectID = json.objectId;
   bitmap.setName(json.name);
+
+  if (s.rotation) {
+    bitmap.rotation = s.rotation;
+  }
 
   if (s.display) {
     bitmap.isVisible = false;
@@ -435,6 +463,7 @@ function parseStyle(styles) {
   var textAlignRegex = new RegExp("^text-align: (left|right|center)");
   var letterSpacingRegex = new RegExp("^letter-spacing: ([0-9.]+)px");
   var textBehaviourRegex = new RegExp("^text-behaviour: (auto|fixed)");
+  var transformRotateRegex = new RegExp("^transform: rotate\\(([\\d.]+)deg\\);?");
   var displayRegex = new RegExp("^display: none");
   var maskRegex = new RegExp("^mask: initial");
 
@@ -500,6 +529,11 @@ function parseStyle(styles) {
     } else if (textBehaviourRegex.test(styles[i])) {
       var ms = textBehaviourRegex.exec(styles[i]);
       re.textBehaviour = ms[1];
+
+    // transform: rotate()
+    } else if (transformRotateRegex.test(styles[i])) {
+      var ms = transformRotateRegex.exec(styles[i]);
+      re.rotation = parseFloat(ms[1]);
 
     // color
     } else if (colorRegex.test(styles[i])) {
