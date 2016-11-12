@@ -91,5 +91,18 @@ module.exports = {
       }
     }
     return false;
+  },
+
+  booleanOperationToNumber: function(str) {
+    if (str === 'union') {
+      return 0;
+    } else if (str === 'subtract') {
+      return 1;
+    } else if (str === 'intersect') {
+      return 2;
+    } else if (str === 'difference') {
+      return 3;
+    }
+    return -1;
   }
 };

@@ -13,6 +13,7 @@ ShapeGroupLayer.prototype.styles = function(){
   var re = GeneralLayer.prototype.styles.call(this);
 
   if (this.className() != "MSShapeGroup") {
+    re = re.concat(this.booleanOperation());
     return re;
   }
 
@@ -20,6 +21,29 @@ ShapeGroupLayer.prototype.styles = function(){
   if (this._layer.hasClippingMask() === 1) {
     re.push('mask: initial;');
   }
+
+  return re;
+};
+
+ShapeGroupLayer.prototype.booleanOperation = function(){
+  var re = new Array();
+  var operationStr = '';
+  var operation = this._layer.booleanOperation();
+  if (operation < 0) {
+    return re;
+  }
+
+  if (operation === 0) {
+    operationStr = 'union';
+  } else if (operation === 1) {
+    operationStr = 'subtract';
+  } else if (operation === 2) {
+    operationStr = 'intersect';
+  } else if (operation === 3) {
+    operationStr = 'difference';
+  }
+
+  re.push('boolean-operation: ' + operationStr);
 
   return re;
 };

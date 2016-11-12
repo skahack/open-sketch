@@ -143,6 +143,10 @@ Importer.prototype.importOval = function(json, parent, current) {
     layer.rotation = s.rotation;
   }
 
+  if (s.booleanOperation) {
+    layer.booleanOperation = _.booleanOperationToNumber(s.booleanOperation);
+  }
+
   layer.setName(json.name);
   parent.object.addLayer(layer);
 };
@@ -164,6 +168,10 @@ Importer.prototype.importRectangle = function(json, parent, current) {
 
   if (s.rotation) {
     layer.rotation = s.rotation;
+  }
+
+  if (s.booleanOperation) {
+    layer.booleanOperation = _.booleanOperationToNumber(s.booleanOperation);
   }
 
   layer.setName(json.name);
@@ -464,6 +472,7 @@ function parseStyle(styles) {
   var letterSpacingRegex = new RegExp("^letter-spacing: ([0-9.]+)px");
   var textBehaviourRegex = new RegExp("^text-behaviour: (auto|fixed)");
   var transformRotateRegex = new RegExp("^transform: rotate\\(([\\d.]+)deg\\);?");
+  var booleanOperationRegex = new RegExp("^boolean-operation: (union|subtract|intersect|difference);?");
   var displayRegex = new RegExp("^display: none");
   var maskRegex = new RegExp("^mask: initial");
 
@@ -534,6 +543,11 @@ function parseStyle(styles) {
     } else if (transformRotateRegex.test(styles[i])) {
       var ms = transformRotateRegex.exec(styles[i]);
       re.rotation = parseFloat(ms[1]);
+
+    // boolean-operation
+    } else if (booleanOperationRegex.test(styles[i])) {
+      var ms = booleanOperationRegex.exec(styles[i]);
+      re.booleanOperation = ms[1];
 
     // color
     } else if (colorRegex.test(styles[i])) {
