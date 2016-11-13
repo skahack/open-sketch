@@ -104,5 +104,31 @@ module.exports = {
       return 3;
     }
     return -1;
+  },
+
+  blurTypeToString: function(num) {
+    if (num === 0) {
+      return 'gaussian';
+    } else if (num === 1) {
+      return 'motion';
+    } else if (num === 2) {
+      return 'zoom';
+    } else if (num === 3) {
+      return 'background';
+    }
+    return '';
+  },
+
+  blurTypeToNumber: function(str) {
+    if (str === 'gaussian') {
+      return 0;
+    } else if (str === 'motion') {
+      return 1;
+    } else if (str === 'zoom') {
+      return 2;
+    } else if (str === 'background') {
+      return 3;
+    }
+    return -1;
   }
 };

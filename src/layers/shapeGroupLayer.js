@@ -1,4 +1,5 @@
 var _ = require('../util');
+var mixin = require('./layerMixin');
 var layerUtil = require('../layerUtil');
 var GeneralLayer = require('./general');
 
@@ -18,6 +19,7 @@ ShapeGroupLayer.prototype.styles = function(){
   }
 
   re = re.concat(this.cssAttributes());
+  re = re.concat(this.blur());
   if (this._layer.hasClippingMask() === 1) {
     re.push('mask: initial;');
   }
@@ -47,6 +49,8 @@ ShapeGroupLayer.prototype.booleanOperation = function(){
 
   return re;
 };
+
+ShapeGroupLayer.prototype.blur = mixin.exportBlur;
 
 ShapeGroupLayer.prototype.cssBackgrounds = function(){
   var re = new Array();

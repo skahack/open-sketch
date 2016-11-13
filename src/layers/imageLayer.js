@@ -1,4 +1,5 @@
 var _ = require('../util');
+var mixin = require('./layerMixin');
 var layerUtil = require('../layerUtil');
 var GeneralLayer = require('./general');
 
@@ -12,8 +13,11 @@ ImageLayer.prototype.constructor = ImageLayer;
 ImageLayer.prototype.styles = function(){
   var re = GeneralLayer.prototype.styles.call(this);
   re = re.concat(this.cssAttributes());
+  re = re.concat(this.blur());
   return re;
 };
+
+ImageLayer.prototype.blur = mixin.exportBlur;
 
 ImageLayer.prototype.cssBackgrounds = function(){
   var re = new Array();

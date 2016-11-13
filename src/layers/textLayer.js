@@ -1,3 +1,4 @@
+var mixin = require('./layerMixin');
 var GeneralLayer = require('./general');
 
 function TextLayer(layer) {
@@ -11,8 +12,11 @@ TextLayer.prototype.styles = function() {
   var re = GeneralLayer.prototype.styles.call(this);
   re = re.concat(this.cssAttributes());
   re = re.concat(this.cssText());
+  re = re.concat(this.blur());
   return re;
 };
+
+TextLayer.prototype.blur = mixin.exportBlur;
 
 TextLayer.prototype.cssText = function(){
   var re = new Array();

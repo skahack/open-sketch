@@ -1,6 +1,29 @@
 var _ = require('./util');
 var File = require('./file');
 
+var positionRegex = new RegExp('^(top|left|width|height): ([\\d.-]+)px');
+var borderRegex = new RegExp('^border: ([0-9.]+)px solid (#[0-9A-F]{6}|rgba\\([0-9,.]+\\))( none)?;?');
+var borderRadiusRegex = new RegExp('^border-radius: ([\\d.]+)px;?');
+var contentRegex = new RegExp("^content: '((.|[\n])*)'");
+var fontFamilyRegex = new RegExp("^font-family: ([^;]*);?");
+var fontSizeRegex = new RegExp("^font-size: (\\d+)px;?");
+var colorRegex = new RegExp("^color: (#[0-9A-F]{6});?");
+var opacityRegex = new RegExp("^opacity: ([0-9.]+);?");
+var backgroundRegex = new RegExp("^background: (#[0-9A-F]{6}|rgba\\([0-9,.]+\\))( none)?;?");
+var backgroundImageRegex = new RegExp("^background-image: url\\(([0-9a-f]+\\.png)\\)( none)?;?");
+var linearGradientRegex = new RegExp("^background-image: linear-gradient\\((.+)\\);?");
+var radialGradientRegex = new RegExp("^background-image: radial-gradient\\((.+)\\);?");
+var lineHeightRegex = new RegExp("^line-height: ([\\d.]+)px;?");
+var textAlignRegex = new RegExp("^text-align: (left|right|center)");
+var letterSpacingRegex = new RegExp("^letter-spacing: ([0-9.]+)px");
+var textBehaviourRegex = new RegExp("^text-behaviour: (auto|fixed)");
+var transformRotateRegex = new RegExp("^transform: rotate\\(([\\d.]+)deg\\);?");
+var booleanOperationRegex = new RegExp("^boolean-operation: (union|subtract|intersect|difference);?");
+var blurType1Regex = new RegExp("^filter: (gaussian|background)-blur\\(([\\d.]+)px\\);?");
+var blurType2Regex = new RegExp("^filter: (motion|zoom)-blur\\(([\\d.]+)px ([\\d.]+)deg\\);?");
+var displayRegex = new RegExp("^display: none");
+var maskRegex = new RegExp("^mask: initial");
+
 /**
  * @param {MSDocument} doc
  * @param {String} path - current working path
@@ -149,6 +172,10 @@ Importer.prototype.importOval = function(json, parent, current) {
     layer.booleanOperation = _.booleanOperationToNumber(s.booleanOperation);
   }
 
+  if (s.blur) {
+    setBlur(layer, s.blur);
+  }
+
   layer.setName(json.name);
   parent.object.addLayer(layer);
 };
@@ -174,6 +201,10 @@ Importer.prototype.importRectangle = function(json, parent, current) {
 
   if (s.booleanOperation) {
     layer.booleanOperation = _.booleanOperationToNumber(s.booleanOperation);
+  }
+
+  if (s.blur) {
+    setBlur(layer, s.blur);
   }
 
   layer.setName(json.name);
@@ -265,6 +296,10 @@ Importer.prototype._importShape = function(type, json, parent, current) {
 
   if (s.rotation) {
     group.rotation = s.rotation;
+  }
+
+  if (s.blur) {
+    setBlur(group, s.blur);
   }
 
   if (s.opacity) {
@@ -363,6 +398,10 @@ Importer.prototype.importText = function(json, parent, current) {
     text.rotation = s.rotation;
   }
 
+  if (s.blur) {
+    setBlur(text, s.blur);
+  }
+
   if (s.display) {
     text.isVisible = false;
   }
@@ -388,6 +427,10 @@ Importer.prototype.importImage = function(json, parent, current) {
 
   if (s.rotation) {
     bitmap.rotation = s.rotation;
+  }
+
+  if (s.blur) {
+    setBlur(bitmap, s.blur);
   }
 
   if (s.display) {
@@ -457,27 +500,6 @@ function currentPos(path, tree) {
 }
 
 function parseStyle(styles) {
-  var positionRegex = new RegExp('^(top|left|width|height): ([\\d.-]+)px');
-  var borderRegex = new RegExp('^border: ([0-9.]+)px solid (#[0-9A-F]{6}|rgba\\([0-9,.]+\\))( none)?;?');
-  var borderRadiusRegex = new RegExp('^border-radius: ([\\d.]+)px;?');
-  var contentRegex = new RegExp("^content: '((.|[\n])*)'");
-  var fontFamilyRegex = new RegExp("^font-family: ([^;]*);?");
-  var fontSizeRegex = new RegExp("^font-size: (\\d+)px;?");
-  var colorRegex = new RegExp("^color: (#[0-9A-F]{6});?");
-  var opacityRegex = new RegExp("^opacity: ([0-9.]+);?");
-  var backgroundRegex = new RegExp("^background: (#[0-9A-F]{6}|rgba\\([0-9,.]+\\))( none)?;?");
-  var backgroundImageRegex = new RegExp("^background-image: url\\(([0-9a-f]+\\.png)\\)( none)?;?");
-  var linearGradientRegex = new RegExp("^background-image: linear-gradient\\((.+)\\);?");
-  var radialGradientRegex = new RegExp("^background-image: radial-gradient\\((.+)\\);?");
-  var lineHeightRegex = new RegExp("^line-height: ([\\d.]+)px;?");
-  var textAlignRegex = new RegExp("^text-align: (left|right|center)");
-  var letterSpacingRegex = new RegExp("^letter-spacing: ([0-9.]+)px");
-  var textBehaviourRegex = new RegExp("^text-behaviour: (auto|fixed)");
-  var transformRotateRegex = new RegExp("^transform: rotate\\(([\\d.]+)deg\\);?");
-  var booleanOperationRegex = new RegExp("^boolean-operation: (union|subtract|intersect|difference);?");
-  var displayRegex = new RegExp("^display: none");
-  var maskRegex = new RegExp("^mask: initial");
-
   var re = {};
   for (var i = 0; i < styles.length; i++) {
     // positions
@@ -551,6 +573,16 @@ function parseStyle(styles) {
       var ms = booleanOperationRegex.exec(styles[i]);
       re.booleanOperation = ms[1];
 
+    // blur: gaussian/background
+    } else if (blurType1Regex.test(styles[i])) {
+      var ms = blurType1Regex.exec(styles[i]);
+      re.blur = { type: ms[1], radius: parseFloat(ms[2]) };
+
+    // blur: motion/zoom
+    } else if (blurType2Regex.test(styles[i])) {
+      var ms = blurType2Regex.exec(styles[i]);
+      re.blur = { type: ms[1], radius: parseFloat(ms[2]), angle: parseFloat(ms[3]) };
+
     // color
     } else if (colorRegex.test(styles[i])) {
       var ms = colorRegex.exec(styles[i]);
@@ -618,6 +650,17 @@ function compareJsonFilePath(tree, a, b) {
   } else {
     return aLen - bLen;
   }
+}
+
+function setBlur(layer, attr) {
+  var blur = MSStyleBlur.alloc().init();
+  blur.type = _.blurTypeToNumber(attr.type);
+  blur.radius = attr.radius;
+  if (attr.angle) {
+    blur.motionAngle = attr.angle;
+  }
+  blur.isEnabled = true;
+  layer.style().blur = blur;
 }
 
 module.exports = Importer;
