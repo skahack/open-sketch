@@ -86,7 +86,9 @@ Importer.prototype.importSymbolMaster = function(json, parent, current) {
     symbol.hasBackgroundColor = true;
     symbol.backgroundColor = _.stringToColor(s.background.color);
   }
-  parent.object.addLayer(symbol);
+  if (parent) {
+    parent.object.addLayer(symbol);
+  }
   current.object = symbol;
 };
 
