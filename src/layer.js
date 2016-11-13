@@ -10,6 +10,7 @@ var ShapeGroupLayer = require('./layers/shapeGroupLayer');
 var PathLayer = require('./layers/pathLayer');
 var SymbolMasterLayer = require('./layers/symbolMasterLayer');
 var SymbolLayer = require('./layers/symbolLayer');
+var GroupLayer = require('./layers/groupLayer');
 
 function Layer() { }
 
@@ -39,6 +40,8 @@ Layer.getLayer = function(layer){
     return new ShapeGroupLayer(layer);
   } else if (type === 'path') {
     return new PathLayer(layer);
+  } else if (type === 'group') {
+    return new GroupLayer(layer);
   } else {
     return new GeneralLayer(layer);
   }

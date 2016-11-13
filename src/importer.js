@@ -141,6 +141,10 @@ Importer.prototype.importGroup = function(json, parent, current) {
     group.isVisible = false;
   }
 
+  if (s.opacity) {
+    group.style().contextSettings().opacity = parseFloat(s.opacity);
+  }
+
   if (s.rotation) {
     group.rotation = s.rotation;
   }
