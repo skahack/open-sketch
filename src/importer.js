@@ -23,6 +23,7 @@ var blurType1Regex = new RegExp("^filter: (gaussian|background)-blur\\(([\\d.]+)
 var blurType2Regex = new RegExp("^filter: (motion|zoom)-blur\\(([\\d.]+)px ([\\d.]+)deg\\);?");
 var shadowRegex = new RegExp("^box-shadow: ((inset )?(0 |[\\d.]+px ){4}(#[0-9A-F]{6}|rgba\\([0-9,.]+\\))( none)?(, )?)+");
 var displayRegex = new RegExp("^display: none");
+var lockRegex = new RegExp("^lock: true");
 var maskRegex = new RegExp("^mask: initial");
 
 /**
@@ -140,6 +141,10 @@ Importer.prototype.importGroup = function(json, parent, current) {
 
   if (s.display) {
     group.isVisible = false;
+  }
+
+  if (s.lock) {
+    group.isLocked = true;
   }
 
   if (s.opacity) {
@@ -323,6 +328,10 @@ Importer.prototype._importShape = function(type, json, parent, current) {
     group.isVisible = false;
   }
 
+  if (s.lock) {
+    group.isLocked = true;
+  }
+
   if (s.mask) {
     group.prepareAsMask();
   }
@@ -423,6 +432,10 @@ Importer.prototype.importText = function(json, parent, current) {
     text.isVisible = false;
   }
 
+  if (s.lock) {
+    text.isLocked = true;
+  }
+
   text.frame = MSRect.rectWithRect(CGRectMake(s.left, s.top, s.width, s.height));
   text.setName(json.name);
   parent.object.addLayer(text);
@@ -456,6 +469,10 @@ Importer.prototype.importImage = function(json, parent, current) {
 
   if (s.display) {
     bitmap.isVisible = false;
+  }
+
+  if (s.lock) {
+    bitmap.isLocked = true;
   }
 
   parent.object.addLayer(bitmap);
@@ -653,6 +670,9 @@ function parseStyle(styles) {
 
     } else if (displayRegex.test(styles[i])) {
       re.display = 'none';
+
+    } else if (lockRegex.test(styles[i])) {
+      re.lock = true;
 
     } else if (maskRegex.test(styles[i])) {
       re.mask = true;

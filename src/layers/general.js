@@ -71,6 +71,10 @@ GeneralLayer.prototype.styles = function(){
     re.push("display: none");
   }
 
+  if (this._layer.isLocked()) {
+    re.push("lock: true");
+  }
+
   var bounds = this.bounds();
   re.push('top: ' + bounds.origin.y + 'px');
   re.push('left: ' + bounds.origin.x + 'px');
