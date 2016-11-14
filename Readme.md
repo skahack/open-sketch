@@ -38,10 +38,7 @@ $ npm start
 
 ## TODO
 
-- Rich text
-- More imporve path
-- Shadow
-- ...
+see [Issues](https://github.com/SKAhack/open-sketch/issues)
 
 ## License
 MIT
