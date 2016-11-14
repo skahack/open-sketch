@@ -20,5 +20,40 @@ module.exports = {
       }
     }
     return re;
+  },
+
+  exportShadow: function() {
+    var re = new Array();
+    var ss = new Array();
+
+    var shadows = this._layer.style().shadows();
+    for (var i = 0; i < shadows.length; i++) {
+      var shadow = shadows[i];
+      ss.push('' +
+        shadow.offsetX() + 'px ' +
+        shadow.offsetY() + 'px ' +
+        shadow.blurRadius() + 'px ' +
+        shadow.spread() + 'px ' +
+        _.colorToString(shadow.color()) +
+        (shadow.isEnabled() ? '' : ' none'));
+    }
+
+    shadows = this._layer.style().innerShadows();
+    for (var i = 0; i < shadows.length; i++) {
+      var shadow = shadows[i];
+      ss.push('inset ' +
+        shadow.offsetX() + 'px ' +
+        shadow.offsetY() + 'px ' +
+        shadow.blurRadius() + 'px ' +
+        shadow.spread() + 'px ' +
+        _.colorToString(shadow.color()) +
+        (shadow.isEnabled() ? '' : ' none'));
+    }
+
+    if (ss.length > 0) {
+      re.push('box-shadow: ' + ss.join(', '));
+    }
+
+    return re;
   }
 };

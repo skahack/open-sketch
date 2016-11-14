@@ -21,6 +21,7 @@ var transformRotateRegex = new RegExp("^transform: rotate\\(([\\d.]+)deg\\);?");
 var booleanOperationRegex = new RegExp("^boolean-operation: (union|subtract|intersect|difference);?");
 var blurType1Regex = new RegExp("^filter: (gaussian|background)-blur\\(([\\d.]+)px\\);?");
 var blurType2Regex = new RegExp("^filter: (motion|zoom)-blur\\(([\\d.]+)px ([\\d.]+)deg\\);?");
+var shadowRegex = new RegExp("^box-shadow: ((inset )?(0 |[\\d.]+px ){4}(#[0-9A-F]{6}|rgba\\([0-9,.]+\\))( none)?(, )?)+");
 var displayRegex = new RegExp("^display: none");
 var maskRegex = new RegExp("^mask: initial");
 
@@ -147,6 +148,10 @@ Importer.prototype.importGroup = function(json, parent, current) {
 
   if (s.rotation) {
     group.rotation = s.rotation;
+  }
+
+  if (s.shadow) {
+    setShadow(group, s.shadow);
   }
 
   parent.object.addLayer(group);
@@ -306,6 +311,10 @@ Importer.prototype._importShape = function(type, json, parent, current) {
     setBlur(group, s.blur);
   }
 
+  if (s.shadow) {
+    setShadow(group, s.shadow);
+  }
+
   if (s.opacity) {
     group.style().contextSettings().setOpacity(parseFloat(s.opacity));
   }
@@ -406,6 +415,10 @@ Importer.prototype.importText = function(json, parent, current) {
     setBlur(text, s.blur);
   }
 
+  if (s.shadow) {
+    setShadow(text, s.shadow);
+  }
+
   if (s.display) {
     text.isVisible = false;
   }
@@ -435,6 +448,10 @@ Importer.prototype.importImage = function(json, parent, current) {
 
   if (s.blur) {
     setBlur(bitmap, s.blur);
+  }
+
+  if (s.shadow) {
+    setShadow(bitmap, s.shadow);
   }
 
   if (s.display) {
@@ -587,6 +604,10 @@ function parseStyle(styles) {
       var ms = blurType2Regex.exec(styles[i]);
       re.blur = { type: ms[1], radius: parseFloat(ms[2]), angle: parseFloat(ms[3]) };
 
+    // shadow
+    } else if (shadowRegex.test(styles[i])) {
+      re.shadow = parseShadow(styles[i]);
+
     // color
     } else if (colorRegex.test(styles[i])) {
       var ms = colorRegex.exec(styles[i]);
@@ -665,6 +686,88 @@ function setBlur(layer, attr) {
   }
   blur.isEnabled = true;
   layer.style().blur = blur;
+}
+
+var shadowParamsRegex = new RegExp("(inset )?((?:[\\d.]+px ){4})(#[0-9A-F]{6}|rgba\\([0-9,.]+\\))( none)?");
+/**
+ * @param {String} style - "box-shadow: ..."
+ */
+function parseShadow(style) {
+  var re = { inner: new Array(), outer: new Array() };
+  var s = style.replace(new RegExp("^box-shadow: "), '');
+  s = s.replace(new RegExp(";$"), '');
+  var ss = s.split(', ');
+  var lenRegex = new RegExp("([\\d.]+px)", 'g');
+  var parseLens = function(strs){
+    var re = {};
+    for (var i = 0; i < strs.length; i++) {
+      var num = parseFloat(strs[i].replace(new RegExp("px"), ''));
+      if (i === 0) {
+        re.offsetX = num;
+      } else if (i === 1) {
+        re.offsetY = num;
+      } else if (i === 2) {
+        re.blurRadius = num;
+      } else if (i === 3) {
+        re.spreadRadius = num;
+      }
+    }
+    return re;
+  };
+
+  for (var i = 0; i < ss.length; i++) {
+    var ms = shadowParamsRegex.exec(ss[i]);
+    var params = parseLens(ms[2].match(lenRegex));
+    if (ms[3]) {
+      params.color = ms[3];
+    }
+    params.enable = true;
+    if (ms[4]) {
+      params.enable = false;
+    }
+    if (ms[1]) {
+      re.inner.push(params);
+    } else {
+      re.outer.push(params);
+    }
+  }
+
+  return re;
+}
+
+function setShadow(layer, style) {
+  var inner = style.inner;
+  var outer = style.outer;
+  var createShadow = function(s){
+    var shadow = MSStyleShadow.alloc().init();
+    shadow.offsetX = s.offsetX;
+    shadow.offsetY = s.offsetY;
+    shadow.blurRadius = s.blurRadius;
+    shadow.spread = s.spreadRadius;
+    if (s.enable) {
+      shadow.isEnabled = true;
+    } else {
+      shadow.isEnabled = false;
+    }
+    shadow.color = _.stringToColor(s.color);
+    return shadow;
+  };
+
+  if (inner.length > 0) {
+    var shadows = new Array();
+    for (var i = 0; i < inner.length; i++) {
+      shadows.unshift(createShadow(inner[i]));
+    }
+    layer.style().innerShadows = shadows;
+  }
+
+  if (outer.length > 0) {
+    var shadows = new Array();
+    for (var i = 0; i < outer.length; i++) {
+      shadows.unshift(createShadow(outer[i]));
+    }
+    layer.style().shadows = shadows;
+  }
 }
 
 module.exports = Importer;

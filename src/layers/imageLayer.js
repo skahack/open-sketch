@@ -14,10 +14,12 @@ ImageLayer.prototype.styles = function(){
   var re = GeneralLayer.prototype.styles.call(this);
   re = re.concat(this.cssAttributes());
   re = re.concat(this.blur());
+  re = re.concat(this.shadow());
   return re;
 };
 
 ImageLayer.prototype.blur = mixin.exportBlur;
+ImageLayer.prototype.shadow = mixin.exportShadow;
 
 ImageLayer.prototype.cssBackgrounds = function(){
   var re = new Array();

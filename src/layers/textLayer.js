@@ -13,10 +13,13 @@ TextLayer.prototype.styles = function() {
   re = re.concat(this.cssAttributes());
   re = re.concat(this.cssText());
   re = re.concat(this.blur());
+  re = re.concat(this.shadow());
   return re;
 };
 
 TextLayer.prototype.blur = mixin.exportBlur;
+
+TextLayer.prototype.shadow = mixin.exportShadow;
 
 TextLayer.prototype.cssText = function(){
   var re = new Array();

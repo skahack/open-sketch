@@ -20,6 +20,7 @@ ShapeGroupLayer.prototype.styles = function(){
 
   re = re.concat(this.cssAttributes());
   re = re.concat(this.blur());
+  re = re.concat(this.shadow());
   if (this._layer.hasClippingMask() === 1) {
     re.push('mask: initial;');
   }
@@ -51,6 +52,8 @@ ShapeGroupLayer.prototype.booleanOperation = function(){
 };
 
 ShapeGroupLayer.prototype.blur = mixin.exportBlur;
+
+ShapeGroupLayer.prototype.shadow = mixin.exportShadow;
 
 ShapeGroupLayer.prototype.cssBackgrounds = function(){
   var re = new Array();
