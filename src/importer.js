@@ -806,7 +806,7 @@ function setShadow(layer, style) {
   if (inner.length > 0) {
     var shadows = new Array();
     for (var i = 0; i < inner.length; i++) {
-      shadows.unshift(createShadow(inner[i]));
+      shadows.push(createShadow(inner[i]));
     }
     layer.style().innerShadows = shadows;
   }
@@ -814,7 +814,7 @@ function setShadow(layer, style) {
   if (outer.length > 0) {
     var shadows = new Array();
     for (var i = 0; i < outer.length; i++) {
-      shadows.unshift(createShadow(outer[i]));
+      shadows.push(createShadow(outer[i]));
     }
     layer.style().shadows = shadows;
   }
