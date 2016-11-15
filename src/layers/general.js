@@ -82,6 +82,7 @@ GeneralLayer.prototype.styles = function(){
   re.push('height: ' + bounds.size.height + 'px');
 
   re = re.concat(this.rotation());
+  re = re.concat(this.blendMode());
 
   return re;
 };
@@ -137,6 +138,19 @@ GeneralLayer.prototype.cssBorders = function(){
       s += ' none'
     }
     re.push(s);
+  }
+
+  return re;
+};
+
+GeneralLayer.prototype.blendMode = function(){
+  var re = new Array();
+
+  if (this._layer.style) {
+    var mode = this._layer.style().contextSettings().blendMode();
+    if (mode > 0) {
+      re.push('blend-mode: ' + _.blendModeNumberToString(mode));
+    }
   }
 
   return re;

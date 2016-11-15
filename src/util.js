@@ -2,6 +2,25 @@ function stripSlashes(t) {
   return t.replace(/\/$/, "");
 }
 
+var blendModeMap = {
+  0: 'normal',
+  1: 'darken',
+  2: 'multiply',
+  3: 'colorBurn',
+  4: 'lighten',
+  5: 'screen',
+  6: 'colorDodge',
+  7: 'overlay',
+  8: 'softLight',
+  9: 'hardLight',
+  10: 'difference',
+  11: 'exclusion',
+  12: 'hue',
+  13: 'saturation',
+  14: 'color',
+  15: 'lumiosity'
+};
+
 module.exports = {
   log: function(){
     var t = Array.prototype.slice.call(arguments);
@@ -130,5 +149,23 @@ module.exports = {
       return 3;
     }
     return -1;
+  },
+
+  blendModeNumberToString: function(num) {
+    if (blendModeMap[num]) {
+      return blendModeMap[num];
+    }
+    throw new Error('Unknow blendMode type. type=' + num);
+  },
+
+  blendModeToNumber: function(str) {
+    var keys = Object.keys(blendModeMap);
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      if (blendModeMap[key] === str) {
+        return i;
+      }
+    }
+    throw new Error('Unknow blendMode type. type=' + str);
   }
 };

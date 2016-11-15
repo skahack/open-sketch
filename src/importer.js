@@ -9,6 +9,7 @@ var fontFamilyRegex = new RegExp("^font-family: ([^;]*);?");
 var fontSizeRegex = new RegExp("^font-size: (\\d+)px;?");
 var colorRegex = new RegExp("^color: (#[0-9A-F]{6});?");
 var opacityRegex = new RegExp("^opacity: ([0-9.]+);?");
+var blendModeRegex = new RegExp("^blend-mode: ([a-z]+);?");
 var backgroundRegex = new RegExp("^background: (#[0-9A-F]{6}|rgba\\([0-9,.]+\\))( none)?;?");
 var backgroundImageRegex = new RegExp("^background-image: url\\(([0-9a-f]+\\.png)\\)( none)?;?");
 var linearGradientRegex = new RegExp("^background-image: linear-gradient\\((.+)\\);?");
@@ -149,6 +150,10 @@ Importer.prototype.importGroup = function(json, parent, current) {
 
   if (s.opacity) {
     group.style().contextSettings().opacity = parseFloat(s.opacity);
+  }
+
+  if (s.blendMode) {
+    group.style().contextSettings().blendMode = _.blendModeToNumber(s.blendMode);
   }
 
   if (s.rotation) {
@@ -324,6 +329,10 @@ Importer.prototype._importShape = function(type, json, parent, current) {
     group.style().contextSettings().setOpacity(parseFloat(s.opacity));
   }
 
+  if (s.blendMode) {
+    group.style().contextSettings().blendMode = _.blendModeToNumber(s.blendMode);
+  }
+
   if (s.display) {
     group.isVisible = false;
   }
@@ -436,6 +445,10 @@ Importer.prototype.importText = function(json, parent, current) {
     text.style().contextSettings().opacity = parseFloat(s.opacity);
   }
 
+  if (s.blendMode) {
+    text.style().contextSettings().blendMode = _.blendModeToNumber(s.blendMode);
+  }
+
   if (s.lock) {
     text.isLocked = true;
   }
@@ -477,6 +490,10 @@ Importer.prototype.importImage = function(json, parent, current) {
 
   if (s.opacity) {
     bitmap.style().contextSettings().opacity = parseFloat(s.opacity);
+  }
+
+  if (s.blendMode) {
+    bitmap.style().contextSettings().blendMode = _.blendModeToNumber(s.blendMode);
   }
 
   if (s.lock) {
@@ -642,6 +659,11 @@ function parseStyle(styles) {
     } else if (opacityRegex.test(styles[i])) {
       var ms = opacityRegex.exec(styles[i]);
       re.opacity = ms[1];
+
+    // blendMode
+    } else if (blendModeRegex.test(styles[i])) {
+      var ms = blendModeRegex.exec(styles[i]);
+      re.blendMode = ms[1];
 
     // background color
     } else if (backgroundRegex.test(styles[i])) {
