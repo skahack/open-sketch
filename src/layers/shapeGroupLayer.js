@@ -69,16 +69,28 @@ ShapeGroupLayer.prototype.cssBackgrounds = function(){
 
     if (fills[i].fillType() == 0) {
       s = '' + fills[i].CSSAttributeString();
+      s = s.replace(/;$/, '');
     } else if (fills[i].fillType() == 1) {
       s = 'background-image: linear-gradient('
         + getGradientString(fills[i].gradient(), fills[i].CSSAttributeString()) + ')';
     } else if (fills[i].fillType() == 4) {
       var image = layerUtil.findImage(this.savedImages, fills[i].image());
-      s = 'background-image: url(' + _.imageName(image) + ')';
+      s = 'background-image: url(' +_.imageName(image) + ')';
     }
 
     if (s) {
-      s = s.replace(/;$/, '');
+      var fillStyle = fills[i].contextSettings();
+      var blendMode = fillStyle.blendMode();
+      var opacity = fillStyle.opacity();
+
+      if (blendMode > 0) {
+        s += ' blend-mode(' + _.blendModeNumberToString(blendMode) + ')';
+      }
+
+      if (opacity < 1) {
+        s += ' opacity(' + opacity + ')';
+      }
+
       if (!fills[i].isEnabled()) {
         s += ' none';
       }

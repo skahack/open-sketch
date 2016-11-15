@@ -10,10 +10,10 @@ var fontSizeRegex = new RegExp("^font-size: (\\d+)px;?");
 var colorRegex = new RegExp("^color: (#[0-9A-F]{6});?");
 var opacityRegex = new RegExp("^opacity: ([0-9.]+);?");
 var blendModeRegex = new RegExp("^blend-mode: ([a-z]+);?");
-var backgroundRegex = new RegExp("^background: (#[0-9A-F]{6}|rgba\\([0-9,.]+\\))( none)?;?");
-var backgroundImageRegex = new RegExp("^background-image: url\\(([0-9a-f]+\\.png)\\)( none)?;?");
-var linearGradientRegex = new RegExp("^background-image: linear-gradient\\((.+)\\);?");
-var radialGradientRegex = new RegExp("^background-image: radial-gradient\\((.+)\\);?");
+var backgroundRegex = new RegExp("^background: (#[0-9A-F]{6}|rgba\\([0-9,.]+\\))( blend-mode\\([a-z]+\\))?( none)?;?");
+var backgroundImageRegex = new RegExp("^background-image: url\\(([0-9a-f]+\\.png)\\)( blend-mode\\([a-z]+\\))?( opacity\\([\\d.]+\\))?( none)?;?");
+var linearGradientRegex = new RegExp("^background-image: linear-gradient\\((.+)\\)( blend-mode\\([a-z]+\\))?( none)?;?");
+var radialGradientRegex = new RegExp("^background-image: radial-gradient\\((.+)\\)( blend-mode\\([a-z]+\\))?( none)?;?");
 var lineHeightRegex = new RegExp("^line-height: ([\\d.]+)px;?");
 var textAlignRegex = new RegExp("^text-align: (left|right|center)");
 var letterSpacingRegex = new RegExp("^letter-spacing: ([0-9.]+)px");
@@ -26,6 +26,8 @@ var shadowRegex = new RegExp("^box-shadow: ((inset )?(0 |[\\d.]+px ){4}(#[0-9A-F
 var displayRegex = new RegExp("^display: none");
 var lockRegex = new RegExp("^lock: true");
 var maskRegex = new RegExp("^mask: initial");
+var backgroundBlendModeRegex = new RegExp("blend-mode\\(([a-z]+)\\)");
+var backgroundOpacityRegex = new RegExp("opacity\\(([\\d.]+)\\)");
 
 /**
  * @param {MSDocument} doc
@@ -285,6 +287,12 @@ Importer.prototype._importShape = function(type, json, parent, current) {
     if (s.backgroundImage.none) {
       fill.isEnabled = false;
     }
+    if (s.backgroundImage.blendMode) {
+      fill.contextSettings().blendMode = _.blendModeToNumber(s.backgroundImage.blendMode);
+    }
+    if (s.backgroundImage.opacity) {
+      fill.contextSettings().opacity = s.backgroundImage.opacity;
+    }
     group.style().addStyleFill(fill);
   }
 
@@ -293,6 +301,9 @@ Importer.prototype._importShape = function(type, json, parent, current) {
     fill.color = _.stringToColor(s.background.color);
     if (s.background.none) {
       fill.isEnabled = false;
+    }
+    if (s.background.blendMode) {
+      fill.contextSettings().blendMode = _.blendModeToNumber(s.background.blendMode);
     }
     group.style().addStyleFill(fill);
   }
@@ -670,6 +681,9 @@ function parseStyle(styles) {
       var ms = backgroundRegex.exec(styles[i]);
       var s = { color: ms[1] };
       if (ms[2]) {
+        s.blendMode = backgroundBlendModeRegex.exec(ms[2])[1];
+      }
+      if (ms[3]) {
         s.none = true;
       }
       re.background = s;
@@ -679,6 +693,12 @@ function parseStyle(styles) {
       var ms = backgroundImageRegex.exec(styles[i]);
       var s = { image: ms[1] };
       if (ms[2]) {
+        s.blendMode = backgroundBlendModeRegex.exec(ms[2])[1];
+      }
+      if (ms[3]) {
+        s.opacity = parseFloat(backgroundOpacityRegex.exec(ms[3])[1]);
+      }
+      if (ms[4]) {
         s.none = true;
       }
       re.backgroundImage = s;
