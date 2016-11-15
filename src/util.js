@@ -2,6 +2,20 @@ function stripSlashes(t) {
   return t.replace(/\/$/, "");
 }
 
+var blurMap = {
+  0: 'gaussian',
+  1: 'motion',
+  2: 'zoom',
+  3: 'background',
+};
+
+var booleanOperationMap = {
+  0: 'union',
+  1: 'subtract',
+  2: 'intersect',
+  3: 'difference'
+};
+
 var blendModeMap = {
   0: 'normal',
   1: 'darken',
@@ -113,42 +127,32 @@ module.exports = {
   },
 
   booleanOperationToNumber: function(str) {
-    if (str === 'union') {
-      return 0;
-    } else if (str === 'subtract') {
-      return 1;
-    } else if (str === 'intersect') {
-      return 2;
-    } else if (str === 'difference') {
-      return 3;
+    var keys = Object.keys(booleanOperationMap);
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      if (booleanOperationMap[key] === str) {
+        return i;
+      }
     }
-    return -1;
+    throw new Error('Unknow booleanOperation type. type=' + str);
   },
 
   blurTypeToString: function(num) {
-    if (num === 0) {
-      return 'gaussian';
-    } else if (num === 1) {
-      return 'motion';
-    } else if (num === 2) {
-      return 'zoom';
-    } else if (num === 3) {
-      return 'background';
+    if (blurMap[num]) {
+      return blurMap[num];
     }
-    return '';
+    throw new Error('Unknow blur type. type=' + str);
   },
 
   blurTypeToNumber: function(str) {
-    if (str === 'gaussian') {
-      return 0;
-    } else if (str === 'motion') {
-      return 1;
-    } else if (str === 'zoom') {
-      return 2;
-    } else if (str === 'background') {
-      return 3;
+    var keys = Object.keys(blurMap);
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      if (blurMap[key] === str) {
+        return i;
+      }
     }
-    return -1;
+    throw new Error('Unknow blur type. type=' + str);
   },
 
   blendModeNumberToString: function(num) {
