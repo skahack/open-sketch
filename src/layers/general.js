@@ -106,7 +106,7 @@ GeneralLayer.prototype.cssAttributes = function(){
         (new RegExp('^background:')).test(s) ||
         (new RegExp('^border:')).test(s) ||
         (new RegExp('^letter-spacing:')).test(s) ||
-        (new RegExp('^box-shadow:')).test(s) || // TODO
+        (new RegExp('^box-shadow:')).test(s) ||
         (new RegExp("linear-gradient")).test(s)) {
       continue;
     }
