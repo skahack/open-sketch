@@ -432,6 +432,10 @@ Importer.prototype.importText = function(json, parent, current) {
     text.isVisible = false;
   }
 
+  if (s.opacity) {
+    text.style().contextSettings().opacity = parseFloat(s.opacity);
+  }
+
   if (s.lock) {
     text.isLocked = true;
   }
@@ -469,6 +473,10 @@ Importer.prototype.importImage = function(json, parent, current) {
 
   if (s.display) {
     bitmap.isVisible = false;
+  }
+
+  if (s.opacity) {
+    bitmap.style().contextSettings().opacity = parseFloat(s.opacity);
   }
 
   if (s.lock) {
