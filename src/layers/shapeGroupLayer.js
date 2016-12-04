@@ -62,20 +62,24 @@ ShapeGroupLayer.prototype.cssBackgrounds = function(){
     return re;
   }
 
-  var fills = this._layer.styleGeneric().fills();
   var s;
+  var fills = this._layer.styleGeneric().fills();
+  var type = {
+    backgrounds: [],
+    backgroundImages: [],
+    linearGradient: [],
+  };
   for (var i = 0; i < fills.length; i++) {
     s = undefined;
 
     if (fills[i].fillType() == 0) {
-      s = '' + fills[i].CSSAttributeString();
-      s = s.replace(/;$/, '');
+      s = '' + _.colorToString(fills[i].color());
     } else if (fills[i].fillType() == 1) {
-      s = 'background-image: linear-gradient('
+      s = 'linear-gradient('
         + getGradientString(fills[i].gradient(), fills[i].CSSAttributeString()) + ')';
     } else if (fills[i].fillType() == 4) {
       var image = layerUtil.findImage(this.savedImages, fills[i].image());
-      s = 'background-image: url(' +_.imageName(image) + ')';
+      s = 'url(' +_.imageName(image) + ')';
     }
 
     if (s) {
@@ -94,8 +98,22 @@ ShapeGroupLayer.prototype.cssBackgrounds = function(){
       if (!fills[i].isEnabled()) {
         s += ' none';
       }
-      re.push(s);
+
+      if (fills[i].fillType() == 0) {
+        type.backgrounds.push(s);
+      } else if (fills[i].fillType() == 1) {
+        type.backgroundImages.push(s);
+      } else if (fills[i].fillType() == 4) {
+        type.backgroundImages.push(s);
+      }
     }
+  }
+
+  if (type.backgrounds.length > 0) {
+    re.push('background: ' + type.backgrounds.join(', '));
+  }
+  if (type.backgroundImages.length > 0) {
+    re.push('background-image: ' + type.backgroundImages.join(', '));
   }
 
   return re;

@@ -1,6 +1,10 @@
 var _ = require('./util');
 var File = require('./file');
 
+var ReUtil = {
+  color: "#[0-9A-F]{6}|rgba\\([0-9,.]+\\)"
+};
+
 var positionRegex = new RegExp('^(top|left|width|height): ([\\d.-]+)px');
 var borderRegex = new RegExp('^border: ([0-9.]+)px solid (#[0-9A-F]{6}|rgba\\([0-9,.]+\\))( none)?;?');
 var borderRadiusRegex = new RegExp('^border-radius: ([\\d.]+)px;?');
@@ -10,7 +14,7 @@ var fontSizeRegex = new RegExp("^font-size: (\\d+)px;?");
 var colorRegex = new RegExp("^color: (#[0-9A-F]{6});?");
 var opacityRegex = new RegExp("^opacity: ([0-9.]+);?");
 var blendModeRegex = new RegExp("^blend-mode: ([a-z]+);?");
-var backgroundRegex = new RegExp("^background: (#[0-9A-F]{6}|rgba\\([0-9,.]+\\))( blend-mode\\([a-z]+\\))?( none)?;?");
+var backgroundRegex = new RegExp("^background: (" + ReUtil.color + ")( blend-mode\\([a-z]+\\))?( none)?");
 var backgroundImageRegex = new RegExp("^background-image: url\\(([0-9a-f]+\\.png)\\)( blend-mode\\([a-z]+\\))?( opacity\\([\\d.]+\\))?( none)?;?");
 var linearGradientRegex = new RegExp("^background-image: linear-gradient\\((.+)\\)( blend-mode\\([a-z]+\\))?( none)?;?");
 var radialGradientRegex = new RegExp("^background-image: radial-gradient\\((.+)\\)( blend-mode\\([a-z]+\\))?( none)?;?");
@@ -98,7 +102,7 @@ Importer.prototype.importArtboard = function(json, parent, current) {
   artboard.setRect(CGRectMake(s.left, s.top, s.width, s.height));
   if (s.background) {
     artboard.hasBackgroundColor = true;
-    artboard.backgroundColor = _.stringToColor(s.background.color);
+    artboard.backgroundColor = _.stringToColor(s.background[0].color);
   }
   parent.object.addLayer(artboard);
   current.object = artboard;
@@ -112,7 +116,7 @@ Importer.prototype.importSymbolMaster = function(json, parent, current) {
   symbol.symbolID = json.symbolId;
   if (s.background) {
     symbol.hasBackgroundColor = true;
-    symbol.backgroundColor = _.stringToColor(s.background.color);
+    symbol.backgroundColor = _.stringToColor(s.background[0].color);
   }
   if (parent) {
     parent.object.addLayer(symbol);
@@ -277,35 +281,41 @@ Importer.prototype._importShape = function(type, json, parent, current) {
   }
 
   if (s.backgroundImage) {
-    var imagePath = _.joinPath(current.path, s.backgroundImage.image);
-    var image = NSImage.alloc().initWithContentsOfFile(imagePath);
-    var imageData = MSImageData.alloc().initWithImage_convertColorSpace(image, false);
+    for (var i = 0; i < s.backgroundImage.length; i++) {
+      var bgImage = s.backgroundImage[i];
+      var imagePath = _.joinPath(current.path, bgImage.image);
+      var image = NSImage.alloc().initWithContentsOfFile(imagePath);
+      var imageData = MSImageData.alloc().initWithImage_convertColorSpace(image, false);
 
-    var fill = MSStyleFill.alloc().init();
-    fill.fillType = 4;
-    fill.image = imageData;
-    if (s.backgroundImage.none) {
-      fill.isEnabled = false;
+      var fill = MSStyleFill.alloc().init();
+      fill.fillType = 4;
+      fill.image = imageData;
+      if (bgImage.none) {
+        fill.isEnabled = false;
+      }
+      if (bgImage.blendMode) {
+        fill.contextSettings().blendMode = _.blendModeToNumber(bgImage.blendMode);
+      }
+      if (bgImage.opacity) {
+        fill.contextSettings().opacity = bgImage.opacity;
+      }
+      group.style().addStyleFill(fill);
     }
-    if (s.backgroundImage.blendMode) {
-      fill.contextSettings().blendMode = _.blendModeToNumber(s.backgroundImage.blendMode);
-    }
-    if (s.backgroundImage.opacity) {
-      fill.contextSettings().opacity = s.backgroundImage.opacity;
-    }
-    group.style().addStyleFill(fill);
   }
 
   if (s.background) {
-    var fill = MSStyleFill.alloc().init();
-    fill.color = _.stringToColor(s.background.color);
-    if (s.background.none) {
-      fill.isEnabled = false;
+    for (var i = 0; i < s.background.length; i++) {
+      var bg = s.background[i];
+      var fill = MSStyleFill.alloc().init();
+      fill.color = _.stringToColor(bg.color);
+      if (bg.none) {
+        fill.isEnabled = false;
+      }
+      if (bg.blendMode) {
+        fill.contextSettings().blendMode = _.blendModeToNumber(bg.blendMode);
+      }
+      group.style().addStyleFill(fill);
     }
-    if (s.background.blendMode) {
-      fill.contextSettings().blendMode = _.blendModeToNumber(s.background.blendMode);
-    }
-    group.style().addStyleFill(fill);
   }
 
 
@@ -475,7 +485,7 @@ Importer.prototype.importImage = function(json, parent, current) {
   }
 
   var s = parseStyle(json.styles);
-  var imagePath = _.joinPath(current.path, s.backgroundImage.image);
+  var imagePath = _.joinPath(current.path, s.backgroundImage[0].image);
   var image = NSImage.alloc().initWithContentsOfFile(imagePath);
   var imageData = MSImageData.alloc().initWithImage_convertColorSpace(image, false);
   var rect = NSMakeRect(s.left, s.top, s.width, s.height);
@@ -678,30 +688,11 @@ function parseStyle(styles) {
 
     // background color
     } else if (backgroundRegex.test(styles[i])) {
-      var ms = backgroundRegex.exec(styles[i]);
-      var s = { color: ms[1] };
-      if (ms[2]) {
-        s.blendMode = backgroundBlendModeRegex.exec(ms[2])[1];
-      }
-      if (ms[3]) {
-        s.none = true;
-      }
-      re.background = s;
+      re.background = parseBackground(styles[i]);
 
     // background image
     } else if (backgroundImageRegex.test(styles[i])) {
-      var ms = backgroundImageRegex.exec(styles[i]);
-      var s = { image: ms[1] };
-      if (ms[2]) {
-        s.blendMode = backgroundBlendModeRegex.exec(ms[2])[1];
-      }
-      if (ms[3]) {
-        s.opacity = parseFloat(backgroundOpacityRegex.exec(ms[3])[1]);
-      }
-      if (ms[4]) {
-        s.none = true;
-      }
-      re.backgroundImage = s;
+      re.backgroundImage = parseBackgroundImage(styles[i]);
 
     } else if (linearGradientRegex.test(styles[i])) {
       var ms = linearGradientRegex.exec(styles[i]);
@@ -756,6 +747,59 @@ function setBlur(layer, attr) {
   }
   blur.isEnabled = true;
   layer.style().blur = blur;
+}
+
+var backgroundParamsRegex = new RegExp("(" + ReUtil.color + ")( blend-mode\\([a-z]+\\))?( none)?");
+/**
+ * @param {String} style - "background: ..."
+ */
+function parseBackground(style) {
+  var re = new Array();
+  var s = style.replace(new RegExp("^background: "), '');
+  s = s.replace(new RegExp(";$"), '');
+  var ss = s.split(', ');
+
+  for (var i = 0; i < ss.length; i++) {
+    var ms = backgroundParamsRegex.exec(ss[i]);
+    var params = { color: ms[1] };
+    if (ms[2]) {
+      params.blendMode = backgroundBlendModeRegex.exec(ms[2])[1];
+    }
+    if (ms[3]) {
+      params.none = true;
+    }
+
+    re.push(params);
+  }
+  return re;
+}
+
+var backgroundImageParamsRegex = new RegExp("url\\(([0-9a-f]+\\.png)\\)( blend-mode\\([a-z]+\\))?( opacity\\([\\d.]+\\))?( none)?");
+/**
+ * @param {String} style - "background-image: ..."
+ */
+function parseBackgroundImage(style) {
+  var re = new Array();
+  var s = style.replace(new RegExp("^background-image: "), '');
+  s = s.replace(new RegExp(";$"), '');
+  var ss = s.split(', ');
+
+  for (var i = 0; i < ss.length; i++) {
+    var ms = backgroundImageParamsRegex.exec(ss[i]);
+    var params = { image: ms[1] };
+    if (ms[2]) {
+      params.blendMode = backgroundBlendModeRegex.exec(ms[2])[1];
+    }
+    if (ms[3]) {
+      params.opacity = parseFloat(backgroundOpacityRegex.exec(ms[3])[1]);
+    }
+    if (ms[4]) {
+      params.none = true;
+    }
+
+    re.push(params);
+  }
+  return re;
 }
 
 var shadowParamsRegex = new RegExp("(inset )?((?:[\\d.]+px ){4})(#[0-9A-F]{6}|rgba\\([0-9,.]+\\))( none)?");
