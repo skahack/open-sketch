@@ -1,7 +1,7 @@
 var _ = require('./util');
 var File = require('./file');
 
-var ReUtil = {
+var Re = {
   color: "#[0-9A-F]{6}|rgba\\([0-9,.]+\\)"
 };
 
@@ -14,10 +14,9 @@ var fontSizeRegex = new RegExp("^font-size: (\\d+)px;?");
 var colorRegex = new RegExp("^color: (#[0-9A-F]{6});?");
 var opacityRegex = new RegExp("^opacity: ([0-9.]+);?");
 var blendModeRegex = new RegExp("^blend-mode: ([a-z]+);?");
-var backgroundRegex = new RegExp("^background: (" + ReUtil.color + ")( blend-mode\\([a-z]+\\))?( none)?");
-var backgroundImageRegex = new RegExp("^background-image: url\\(([0-9a-f]+\\.png)\\)( blend-mode\\([a-z]+\\))?( opacity\\([\\d.]+\\))?( none)?;?");
-var linearGradientRegex = new RegExp("^background-image: linear-gradient\\((.+)\\)( blend-mode\\([a-z]+\\))?( none)?;?");
-var radialGradientRegex = new RegExp("^background-image: radial-gradient\\((.+)\\)( blend-mode\\([a-z]+\\))?( none)?;?");
+var backgroundRegex = new RegExp("^background: (" + Re.color + ")( blend-mode\\([a-z]+\\))?( none)?");
+var backgroundImageRegexParamPart = "(url|linear-gradient|radial-gradient)\\(.+?(rgba\\(.+?\\).+?)*\\)( blend-mode\\([a-z]+\\))?( opacity\\([\\d.]+\\))?( none)?";
+var backgroundImageRegex = new RegExp("^background-image: (" + backgroundImageRegexParamPart + "(, )?)+");
 var lineHeightRegex = new RegExp("^line-height: ([\\d.]+)px;?");
 var textAlignRegex = new RegExp("^text-align: (left|right|center)");
 var letterSpacingRegex = new RegExp("^letter-spacing: ([0-9.]+)px");
@@ -320,18 +319,21 @@ Importer.prototype._importShape = function(type, json, parent, current) {
 
 
   if (s.linearGradient) {
-    var fill = MSStyleFill.alloc().init();
-    fill.fillType = 1;
-    var stops = s.linearGradient.stops.map(function(stop){
-      return MSGradientStop.alloc().initWithPosition_color(stop.length, _.stringToColor(stop.color));
-    });
-    var gradient = MSGradient.alloc().initBlankGradient();
-    gradient.gradientType = 0;
-    gradient.from = CGPointMake(s.linearGradient.from.x, s.linearGradient.from.y);
-    gradient.to = CGPointMake(s.linearGradient.to.x, s.linearGradient.to.y);
-    gradient.stops = stops;
-    fill.gradient = gradient;
-    group.style().addStyleFill(fill);
+    for (var i = 0; i < s.linearGradient.length; i++) {
+      var linearGradient = s.linearGradient[i];
+      var fill = MSStyleFill.alloc().init();
+      fill.fillType = 1;
+      var stops = linearGradient.stops.map(function(stop){
+        return MSGradientStop.alloc().initWithPosition_color(stop.length, _.stringToColor(stop.color));
+      });
+      var gradient = MSGradient.alloc().initBlankGradient();
+      gradient.gradientType = 0;
+      gradient.from = CGPointMake(linearGradient.from.x, linearGradient.from.y);
+      gradient.to = CGPointMake(linearGradient.to.x, linearGradient.to.y);
+      gradient.stops = stops;
+      fill.gradient = gradient;
+      group.style().addStyleFill(fill);
+    }
   }
 
   if (s.rotation) {
@@ -692,22 +694,13 @@ function parseStyle(styles) {
 
     // background image
     } else if (backgroundImageRegex.test(styles[i])) {
-      re.backgroundImage = parseBackgroundImage(styles[i]);
-
-    } else if (linearGradientRegex.test(styles[i])) {
-      var ms = linearGradientRegex.exec(styles[i]);
-      var rules = ms[1].match(new RegExp("((#[0-9A-F]{6}|rgba\\([0-9,.]+\\)) ([0-9.]+))", 'g'));
-      var positions = ms[1].replace(/,.+/, '').split(' ');
-      rules = rules.map(function(rule){
-        var re = new RegExp("(#[0-9A-F]{6}|rgba\\([0-9,.]+\\)) ([0-9.]+)");
-        var ms = re.exec(rule);
-        return { color: ms[1], length: parseFloat(ms[2]) };
-      });
-      re.linearGradient = {
-        from: { x: positions[0], y: positions[1] },
-        to: { x: positions[2], y: positions[3] },
-        stops: rules
-      };
+      var parsedBackgroundImage = parseBackgroundImage(styles[i]);
+      if (parsedBackgroundImage.image.length > 0) {
+        re.backgroundImage = parsedBackgroundImage.image;
+      }
+      if (parsedBackgroundImage.linearGradient.length > 0) {
+        re.linearGradient = parsedBackgroundImage.linearGradient;
+      }
 
     } else if (displayRegex.test(styles[i])) {
       re.display = 'none';
@@ -749,7 +742,7 @@ function setBlur(layer, attr) {
   layer.style().blur = blur;
 }
 
-var backgroundParamsRegex = new RegExp("(" + ReUtil.color + ")( blend-mode\\([a-z]+\\))?( none)?");
+var backgroundParamsRegex = new RegExp("(" + Re.color + ")( blend-mode\\([a-z]+\\))?( none)?");
 /**
  * @param {String} style - "background: ..."
  */
@@ -775,29 +768,50 @@ function parseBackground(style) {
 }
 
 var backgroundImageParamsRegex = new RegExp("url\\(([0-9a-f]+\\.png)\\)( blend-mode\\([a-z]+\\))?( opacity\\([\\d.]+\\))?( none)?");
+var linearGradientParamsRegex = new RegExp("linear-gradient\\((.+)\\)( blend-mode\\([a-z]+\\))?( none)?");
+var radialGradientParamsRegex = new RegExp("radial-gradient\\((.+)\\)( blend-mode\\([a-z]+\\))?( none)?");
 /**
  * @param {String} style - "background-image: ..."
  */
 function parseBackgroundImage(style) {
-  var re = new Array();
+  var re = {
+    image: new Array(),
+    linearGradient: new Array(),
+    radialGradient: new Array()
+  };
   var s = style.replace(new RegExp("^background-image: "), '');
   s = s.replace(new RegExp(";$"), '');
-  var ss = s.split(', ');
+  var ss = s.match(new RegExp(backgroundImageRegexParamPart, 'g'));
 
   for (var i = 0; i < ss.length; i++) {
-    var ms = backgroundImageParamsRegex.exec(ss[i]);
-    var params = { image: ms[1] };
-    if (ms[2]) {
-      params.blendMode = backgroundBlendModeRegex.exec(ms[2])[1];
+    if (backgroundImageParamsRegex.test(ss[i])) {
+      var ms = backgroundImageParamsRegex.exec(ss[i]);
+      var params = { image: ms[1] };
+      if (ms[2]) {
+        params.blendMode = backgroundBlendModeRegex.exec(ms[2])[1];
+      }
+      if (ms[3]) {
+        params.opacity = parseFloat(backgroundOpacityRegex.exec(ms[3])[1]);
+      }
+      if (ms[4]) {
+        params.none = true;
+      }
+      re.image.push(params);
+    } else if (linearGradientParamsRegex.test(ss[i])) {
+      var ms = linearGradientParamsRegex.exec(ss[i]);
+      var rules = ms[1].match(new RegExp("((" + Re.color + ") ([0-9.]+))", 'g'));
+      var positions = ms[1].replace(/,.+/, '').split(' ');
+      rules = rules.map(function(rule){
+        var re = new RegExp("(" + Re.color + ") ([0-9.]+)");
+        var ms = re.exec(rule);
+        return { color: ms[1], length: parseFloat(ms[2]) };
+      });
+      re.linearGradient.push({
+        from: { x: positions[0], y: positions[1] },
+        to: { x: positions[2], y: positions[3] },
+        stops: rules
+      });
     }
-    if (ms[3]) {
-      params.opacity = parseFloat(backgroundOpacityRegex.exec(ms[3])[1]);
-    }
-    if (ms[4]) {
-      params.none = true;
-    }
-
-    re.push(params);
   }
   return re;
 }
