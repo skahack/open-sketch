@@ -29,6 +29,7 @@ var shadowRegex = new RegExp("^box-shadow: ((inset )?(0 |[\\d.]+px ){4}(#[0-9A-F
 var displayRegex = new RegExp("^display: none");
 var lockRegex = new RegExp("^lock: true");
 var maskRegex = new RegExp("^mask: initial");
+var textDecarationRegex = new RegExp("^text-decoration: (underline|double-underline|line-through)");
 var backgroundBlendModeRegex = new RegExp("blend-mode\\(([a-z]+)\\)");
 var backgroundOpacityRegex = new RegExp("opacity\\(([\\d.]+)\\)");
 
@@ -472,6 +473,14 @@ Importer.prototype.importText = function(json, parent, current) {
     text.style().contextSettings().blendMode = _.blendModeToNumber(s.blendMode);
   }
 
+  if (s.textDecoration) {
+    if (s.textDecoration == 'underline' || s.textDecoration == 'double-underline') {
+      text.addAttribute_value('NSUnderline', _.underlineToNumber(s.textDecoration));
+    } else {
+      text.addAttribute_value('NSStrikethrough', 1);
+    }
+  }
+
   if (s.lock) {
     text.isLocked = true;
   }
@@ -710,6 +719,10 @@ function parseStyle(styles) {
 
     } else if (maskRegex.test(styles[i])) {
       re.mask = true;
+
+    } else if (textDecarationRegex.test(styles[i])) {
+      var ms = textDecarationRegex.exec(styles[i]);
+      re.textDecoration = ms[1];
 
     } else {
       // print(styles[i]);

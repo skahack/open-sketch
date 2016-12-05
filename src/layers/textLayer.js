@@ -1,5 +1,6 @@
 var mixin = require('./layerMixin');
 var GeneralLayer = require('./general');
+var _ = require('../util');
 
 function TextLayer(layer) {
   GeneralLayer.call(this, layer);
@@ -45,6 +46,18 @@ TextLayer.prototype.cssText = function(){
 
     // Content
     re.push("content: '" + this.stringValue() + "'");
+
+    var attrs = this._layer.styleAttributes();
+
+    // Underline
+    if (attrs.NSUnderline > 0) {
+      re.push("text-decoration: " + _.underlineNumberToString(attrs.NSUnderline));
+    }
+
+    // Line through
+    if (attrs.NSStrikethrough > 0) {
+      re.push("text-decoration: line-through");
+    }
   }
   return re;
 };

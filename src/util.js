@@ -35,6 +35,12 @@ var blendModeMap = {
   15: 'lumiosity'
 };
 
+var underlineMap = {
+  0: 'normal',
+  1: 'underline',
+  9: 'double-underline'
+};
+
 module.exports = {
   log: function(){
     var t = Array.prototype.slice.call(arguments);
@@ -171,5 +177,23 @@ module.exports = {
       }
     }
     throw new Error('Unknow blendMode type. type=' + str);
+  },
+
+  underlineNumberToString: function(num) {
+    if (underlineMap[num]) {
+      return underlineMap[num];
+    }
+    throw new Error('Unknow underline type. type=' + num);
+  },
+
+  underlineToNumber: function(str) {
+    var keys = Object.keys(underlineMap);
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      if (underlineMap[key] === str) {
+        return parseInt(key);
+      }
+    }
+    throw new Error('Unknow underline type. type=' + str);
   }
 };
