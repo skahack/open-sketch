@@ -1,5 +1,9 @@
 # Open Sketch
 
+❗️❗️ This project is deprecated since Sketch 43. ❗️❗️
+
+Please read http://sketchplugins.com/d/87-new-file-format-in-sketch-43.
+
 Open Sketch is sketch to json exporter and json to sketch importer.
 
 ![Intro](doc/images/intro.gif)
