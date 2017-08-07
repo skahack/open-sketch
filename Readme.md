@@ -40,9 +40,10 @@ $ npm start
 
 5, Done. Sketch file export to `documents` directory.
 
-## TODO
+## Related projects
 
-see [Issues](https://github.com/SKAhack/open-sketch/issues)
+- https://kactus.io/
+- https://www.goabstract.com/
 
 ## License
 MIT
